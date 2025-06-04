@@ -9,6 +9,12 @@ from PIL import Image, ImageTk
 from src.ui.temperatura_frame import TemperaturaFrame  
 from src.ui.humedad_frame import HumedadFrame
 from src.ui.ph_frame import PHFrame
+from src.ui.luz_frame import LuzFrame
+from src.ui.actualizar_frame import ActualizarFrame
+from src.ui.fotos_frame import FotosFrame
+from src.ui.perfil_frame import PerfilFrame
+from src.ui.riego_frame import RiegoFrame
+from src.ui.ventilacion_frame import VentilacionFrame
 
 class IconLoader:
     def __init__(self, icon_dir="assets/icons", size=(24, 24)):
@@ -53,7 +59,13 @@ class PanelCliente:
         clases_especiales = {
             "temperatura": TemperaturaFrame,
             "humedad": HumedadFrame,
-            "ph": PHFrame
+            "ph": PHFrame,
+            "luz": LuzFrame,
+            "fotos": FotosFrame,
+            "actualizar": ActualizarFrame,
+            "riego": RiegoFrame,
+            "perfil": PerfilFrame,
+            "ventilacion": VentilacionFrame,
         }
 
         secciones = [

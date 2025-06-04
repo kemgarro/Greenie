@@ -1,0 +1,13 @@
+[2025-06-04 14:15] Encendido diario programado a las 15:30
+[2025-06-04 14:28:19] Ciclo activado: cada 24h por 30min
+[2025-06-04 14:28:45] Encendido diario programado a las 12:40
+[2025-06-04 14:29:10] Bombillo encendido
+[2025-06-04 14:29:11] Bombillo apagado
+[2025-06-04 14:29:12] Techo abierto
+[2025-06-04 14:29:13] Techo cerrado
+[2025-06-04 14:37:45] Luz encendida manualmente.
+[2025-06-04 14:37:46] Luz apagada manualmente.
+[2025-06-04 14:37:48] Techo abierto manualmente.
+[2025-06-04 14:37:49] Techo cerrado manualmente.
+[2025-06-04 14:54:50] Techo abierto manualmente.
+[2025-06-04 14:54:50] Techo cerrado manualmente.

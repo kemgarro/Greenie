@@ -4,6 +4,10 @@ import os
 import subprocess
 import sys
 from src.ui.usuarios_frame import UsuariosFrame
+from src.ui.llamadas_frame import LlamadasFrame
+from src.ui.seguimiento_frame import SeguimientoFrame
+from src.ui.historial_frame import HistorialFrame
+ 
 
 class PanelAdmin:
     def __init__(self):
@@ -20,11 +24,20 @@ class PanelAdmin:
 
     def crear_frames(self):
         self.frames["principal"] = self.crear_principal()
-        secciones = ["usuarios", "productos", "llamadas", "seguimiento", "historial"]
 
+        clases_especiales = {
+            "usuarios": UsuariosFrame,
+            "llamadas": LlamadasFrame,
+            "seguimiento": SeguimientoFrame,
+            "historial": HistorialFrame,
+
+
+        }
+
+        secciones = ["usuarios", "productos", "llamadas", "seguimiento", "historial"]
         for s in secciones:
-            if s == "usuarios":
-                self.frames[s] = UsuariosFrame(self.root, self.volver_a_principal)
+            if s in clases_especiales:
+                self.frames[s] = clases_especiales[s](self.root, self.volver_a_principal)
             else:
                 self.frames[s] = self.crear_seccion(s.capitalize())
 
@@ -40,7 +53,7 @@ class PanelAdmin:
         header = tk.Frame(frame, bg="#096B35", height=60)
         header.pack(fill="x")
         tk.Label(header, text="Greenie - Admin", font=("Segoe UI", 18, "bold"),
-                 fg="white", bg="#096B35").pack(pady=10)
+                fg="white", bg="#096B35").pack(pady=10)
 
         acciones = [
             ("Usuarios", "usuarios"),
@@ -52,16 +65,16 @@ class PanelAdmin:
 
         for texto, clave in acciones:
             tk.Button(frame, text=texto,
-                      font=("Segoe UI", 12),
-                      bg="#7AC35D", fg="white",
-                      width=30, height=2,
-                      command=lambda k=clave: self.mostrar_frame(k)).pack(pady=10)
+                    font=("Segoe UI", 12),
+                    bg="#7AC35D", fg="white",
+                    width=30, height=2,
+                    command=lambda k=clave: self.mostrar_frame(k)).pack(pady=10)
 
         tk.Button(frame, text="Cerrar sesión",
-                  font=("Segoe UI", 12),
-                  bg="#7AC35D", fg="white",
-                  width=30, height=2,
-                  command=self.cerrar_sesion).pack(pady=10)
+            font=("Segoe UI", 12),
+            bg="#7AC35D", fg="white",
+            width=30, height=2,
+            command=self.cerrar_sesion).pack(pady=10)
 
         return frame
 
@@ -70,11 +83,11 @@ class PanelAdmin:
         header = tk.Frame(frame, bg="#096B35", height=60)
         header.pack(fill="x")
         tk.Label(header, text=titulo, font=("Segoe UI", 16, "bold"),
-                 fg="white", bg="#096B35").pack(pady=15)
+                fg="white", bg="#096B35").pack(pady=15)
 
         tk.Button(frame, text="Volver", bg="#7AC35D", fg="white",
-                  font=("Segoe UI", 10), width=12,
-                  command=lambda: self.mostrar_frame("principal")).pack(pady=20)
+                font=("Segoe UI", 10), width=12,
+                command=lambda: self.mostrar_frame("principal")).pack(pady=20)
         return frame
 
     def volver_a_principal(self):

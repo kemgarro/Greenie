@@ -1,0 +1,3 @@
+[2025-06-04 14:48:05] Ventilador encendido
+[2025-06-04 14:48:08] Ventilador apagado
+[2025-06-04 14:55:33] Ventilación se activará si la temperatura supera 10.0°C
