@@ -1,1 +1,3 @@
-kemgarro,2907,Kembly Garro
+Jose,2807,Jose Alpizar,admin
+Kembly,2907,Kembly Garro,cliente
+001-A,0212,Luis Mejias,cliente

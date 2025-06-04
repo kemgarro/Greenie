@@ -1,17 +1,18 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
+from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 import os
 from src.ui.registro import RegistroUI
 from src.backend.autenticacion import verificar_credenciales
+from src.ui.panel_admin import PanelAdmin
+from src.ui.panel_cliente import PanelCliente
 
 class LoginUI:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Greenie - Inicio de sesión")
-        self.root.geometry("400x600")
-        self.root.configure(bg="#096B35")
+        self.root.geometry("400x500")
+        self.root.configure(bg="#F7F7F7")
         self.root.resizable(False, False)
 
         self.configurar_estilos()
@@ -22,98 +23,79 @@ class LoginUI:
         style.theme_use("clam")
 
         style.configure("TEntry",
-                        foreground="white",
-                        fieldbackground="#054B25",
-                        background="#054B25",
-                        padding=10,
-                        borderwidth=0)
-        
+                        foreground="black",
+                        fieldbackground="white",
+                        padding=10)
+
         style.configure("TButton",
                         foreground="white",
                         background="#7AC35D",
                         font=("Segoe UI", 10, "bold"),
                         padding=10)
-        
-        style.map("TButton",
-                  background=[('active', '#65a24c')])
+        style.map("TButton", background=[('active', '#7AC35D')])
 
     def crear_widgets(self):
-        contenedor = tk.Frame(self.root, bg="#096B35")
-        contenedor.pack(expand=True)
+        contenedor = tk.Frame(self.root, bg="#F7F7F7")
+        contenedor.pack(expand=True, pady=30)
 
-        # Logo
+        # Texto "Bienvenido a"
+        tk.Label(contenedor,
+                text="Bienvenido a",
+                font=("Segoe UI", 14),
+                fg="#555",
+                bg="#F7F7F7").pack(pady=(0, 5))
+
+        # Logo de Greenie
         ruta_logo = os.path.join("assets", "logos", "logo.png")
         if os.path.exists(ruta_logo):
-            imagen = Image.open(ruta_logo).resize((70, 70))
+            imagen = Image.open(ruta_logo).resize((140, 120))
             self.logo = ImageTk.PhotoImage(imagen)
-            tk.Label(contenedor, image=self.logo, bg="#096B35").pack(pady=(20, 10))
+            tk.Label(contenedor, image=self.logo, bg="#F7F7F7").pack(pady=(0, 25))
 
-        # Título Greenie
-        tk.Label(contenedor,
-                 text="Greenie",
-                 font=("Segoe UI", 24, "bold"),
-                 fg="white",
-                 bg="#096B35").pack()
 
-        # Subtítulo
-        tk.Label(contenedor,
-                 text="Bienvenido a Greenie",
-                 font=("Segoe UI", 12),
-                 fg="white",
-                 bg="#096B35").pack(pady=(10, 30))
-
-        # Campos de entrada
+        # Entradas
+        tk.Label(contenedor, text="Usuario:", bg="#F7F7F7").pack(anchor="w", padx=40)
         self.usuario = ttk.Entry(contenedor, width=30)
-        self.usuario.insert(0, "Usuario")
-        self.usuario.pack(pady=10)
+        self.usuario.pack(pady=(0, 10))
 
+        tk.Label(contenedor, text="Contraseña:", bg="#F7F7F7").pack(anchor="w", padx=40)
         self.contrasena = ttk.Entry(contenedor, width=30, show="*")
-        self.contrasena.insert(0, "Contraseña")
-        self.contrasena.pack(pady=10)
+        self.contrasena.pack(pady=(0, 20))
 
-        # Botón de iniciar sesión
-        ttk.Button(contenedor,
-                   text="INICIAR SESIÓN",
-                   command=self.iniciar_sesion,
-                   style="TButton").pack(pady=20)
+        ttk.Separator(contenedor, orient='horizontal').pack(fill='x', padx=40, pady=10)
 
-        # Enlace para registro
-        abajo = tk.Frame(contenedor, bg="#096B35")
-        abajo.pack(pady=(30, 10))
+        ttk.Button(contenedor, text="INICIAR SESIÓN", command=self.iniciar_sesion).pack(pady=10, ipadx=20)
+
+        # Enlace de registro
+        enlace = tk.Frame(contenedor, bg="#F7F7F7")
+        enlace.pack(pady=(10, 0))
 
         
-        tk.Button(abajo,
-                  text="Registrarse",
-                  font=("Segoe UI", 9, "underline"),
-                  fg="#7AC35D",
-                  bg="#096B35",
-                  borderwidth=0,
-                  cursor="hand2",
-                  command=self.abrir_registro).pack(side="left")
+        
 
     def iniciar_sesion(self):
         user = self.usuario.get().strip()
         pwd = self.contrasena.get().strip()
 
-        if verificar_credenciales(user, pwd):
-            messagebox.showinfo("Éxito", f"¡Bienvenido, {user}!")
+        datos = verificar_credenciales(user, pwd)
+
+        if datos:
+            messagebox.showinfo("Éxito", f"¡Bienvenido, {datos['nombre']}!")
             self.root.destroy()
-            # Aquí podrías redirigir al panel correcto
+            if datos["rol"] == "admin":
+                PanelAdmin()
+            else:
+                PanelCliente(user)
         else:
             messagebox.showerror("Error", "Credenciales incorrectas")
 
     def abrir_registro(self):
-        messagebox.showinfo("Registro", "Aquí se abriría la ventana de registro")
+        RegistroUI(self.root)
 
     def mostrar(self):
         self.root.mainloop()
 
-
-    def abrir_registro(self):
-        RegistroUI(self.root)
-
-
-# Para pruebas
+# Para pruebas locales
 if __name__ == "__main__":
     app = LoginUI()
     app.mostrar()
