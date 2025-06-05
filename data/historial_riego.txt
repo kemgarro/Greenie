@@ -1,0 +1,25 @@
+[2025-06-04 15:05:33] Riego encendido
+[2025-06-04 15:08:46] Riego encendido
+[2025-06-04 15:08:58] Riego apagado automáticamente después de 10s
+[2025-06-04 17:13:19] Riego encendido
+[2025-06-04 17:13:24] Riego apagado
+[2025-06-04 17:13:32] Riego apagado automáticamente después de 10s
+[2025-06-04 17:24:22] Riego encendido
+[2025-06-04 17:24:38] Riego apagado automáticamente después de 10s
+[2025-06-04 17:32:54] Riego encendido
+[2025-06-04 17:33:01] Riego encendido
+[2025-06-04 17:33:06] Riego apagado automáticamente después de 10s
+[2025-06-04 17:33:13] Riego apagado automáticamente después de 10s
+[2025-06-04 18:09:17] Riego encendido
+[2025-06-04 18:09:33] Riego apagado automáticamente después de 10s
+[2025-06-04 18:18:12] Riego encendido
+[2025-06-04 18:18:17] Riego apagado
+[2025-06-04 18:18:26] Riego apagado automáticamente después de 10s
+[2025-06-04 18:28:19] Riego encendido
+[2025-06-04 18:29:15] Riego encendido
+[2025-06-04 18:45:48] Riego apagado
+[2025-06-04 18:45:54] Riego encendido
+[2025-06-04 18:46:05] Riego apagado automáticamente después de 10s
+[2025-06-04 18:53:33] Riego apagado
+[2025-06-04 18:53:39] Riego encendido
+[2025-06-04 18:53:51] Riego apagado automáticamente después de 10s
