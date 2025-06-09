@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from tkinter import messagebox
 import datetime
@@ -23,9 +22,9 @@ class RiegoFrame(tk.Frame):
         manual.pack(pady=10)
 
         tk.Button(manual, text="Encender", bg="#7AC35D", fg="white",
-                  command=lambda: self.registrar_evento("Riego encendido")).pack(side="left", padx=5)
+                  command=self.encender_riego).pack(side="left", padx=5)
         tk.Button(manual, text="Apagar", bg="#7AC35D", fg="white",
-                  command=lambda: self.registrar_evento("Riego apagado")).pack(side="left", padx=5)
+                  command=self.apagar_riego).pack(side="left", padx=5)
 
         # Ciclo automático
         ciclo = tk.LabelFrame(self, text="Ciclo Automático", bg="#FFFFFF", padx=10, pady=10)
@@ -62,17 +61,44 @@ class RiegoFrame(tk.Frame):
                   font=("Segoe UI", 10), width=20,
                   command=self.volver_callback).pack(pady=20)
 
+    def encender_riego(self):
+        try:
+            if self.serial_manager and self.serial_manager.arduino and self.serial_manager.arduino.is_open:
+                self.serial_manager.enviar("ACTIVAR:BOMBA")
+                self.registrar_evento("Riego encendido")
+
+                # ✅ Cancelar temporizador anterior si existe
+                after_id = getattr(self, "_riego_after_id", None)
+                if after_id:
+                    self.after_cancel(after_id)
+
+                # ✅ Programar apagado automático
+                self._riego_after_id = self.after(10000, self.apagar_riego)
+            else:
+                messagebox.showwarning("Desconectado", "Arduino no está conectado.")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo encender el riego: {e}")
+
+
+
+    def apagar_riego(self):
+        try:
+            if self.serial_manager and self.serial_manager.arduino and self.serial_manager.arduino.is_open:
+                self.serial_manager.write("DESACTIVAR:BOMBA")
+                self.registrar_evento("Riego apagado")
+            else:
+                messagebox.showwarning("Desconectado", "Arduino no está conectado.")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo apagar el riego: {e}")
+
+
     def registrar_evento(self, texto):
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         evento = f"[{now}] {texto}\n"
-        with open("data/historial_riego.txt", "a") as f:
+        os.makedirs("data", exist_ok=True)
+        with open("data/historial_riego.txt", "a", encoding="utf-8") as f:
             f.write(evento)
         messagebox.showinfo("Evento registrado", texto)
-
-        if "encendido" in texto.lower():
-            # Simular encendido por 10 segundos
-            self.after(10000, lambda: self.registrar_evento("Riego apagado automáticamente después de 10s"))
-
 
     def programar_ciclo(self):
         try:
@@ -91,10 +117,10 @@ class RiegoFrame(tk.Frame):
             messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
 
     def ver_historial(self):
-        if os.path.exists("data/historial_riego.txt"):
-            with open("data/historial_riego.txt", "r") as f:
+        ruta = "data/historial_riego.txt"
+        if os.path.exists(ruta):
+            with open(ruta, "r", encoding="utf-8") as f:
                 contenido = f.read()
             messagebox.showinfo("Historial de Riego", contenido or "No hay eventos registrados aún.")
         else:
             messagebox.showinfo("Historial de Riego", "No hay historial disponible.")
-

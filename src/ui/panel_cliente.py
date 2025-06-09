@@ -35,7 +35,7 @@ class PanelCliente:
         self.serial_manager = serial_manager
         self.root = tk.Tk()
         self.root.title("Greenie - Panel Cliente")
-        self.root.geometry("400x600")
+        self.root.geometry("400x700")
         self.root.resizable(False, False)
         self.root.configure(bg="#F7F7F7")
 

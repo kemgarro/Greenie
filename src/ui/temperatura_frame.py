@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from datetime import datetime
 import matplotlib.pyplot as plt
@@ -24,12 +23,45 @@ class TemperaturaFrame(tk.Frame):
         self.lbl_actual = tk.Label(self, text="", font=("Segoe UI", 14), bg="#FFFFFF")
         self.lbl_actual.pack(pady=10)
 
+        # Botón para leer del Arduino
+        tk.Button(self, text="Leer del Arduino", bg="#7AC35D", fg="white",
+                  command=self.leer_temperatura_desde_arduino).pack(pady=5)
+
         self.canvas_frame = tk.Frame(self, bg="#FFFFFF")
         self.canvas_frame.pack(pady=10)
 
         tk.Button(self, text="Volver", bg="#7AC35D", fg="white",
                   font=("Segoe UI", 10), width=12,
                   command=self.volver_callback).pack(pady=10)
+
+    def leer_temperatura_desde_arduino(self):
+        try:
+            self.serial_manager.write("LEER:DHT")
+            respuesta = self.serial_manager.leer_linea()
+
+            if respuesta is not None and respuesta.startswith("T:") and "H:" in respuesta:
+                # Extraer temperatura
+                partes = respuesta.replace("T:", "").replace("H:", "").split()
+                temp = float(partes[0])
+
+                estado = "abierto" if self.obtener_estado_techo() else "cerrado"
+
+                # Guardar registro
+                os.makedirs("data", exist_ok=True)
+                with open(self.archivo, "a", encoding="utf-8") as f:
+                    f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M')}|{temp}|{estado}\n")
+
+                self.lbl_actual.config(text=f"Temperatura actual: {temp}°C")
+                self.mostrar_graficos()
+            else:
+                self.lbl_actual.config(text="No se recibió una respuesta válida del Arduino.")
+        except Exception as e:
+            self.lbl_actual.config(text=f"Error: {e}")
+
+    def obtener_estado_techo(self):
+        # Simulación: podrías almacenar el estado real en un archivo o variable
+        # Si deseas leer del Arduino, podrías usar otro comando serial
+        return False  # Por ahora se asume cerrado
 
     def mostrar_temperatura_actual(self):
         if not os.path.exists(self.archivo):
@@ -70,6 +102,9 @@ class TemperaturaFrame(tk.Frame):
                 except:
                     continue
 
+        for widget in self.canvas_frame.winfo_children():
+            widget.destroy()
+
         fig, axs = plt.subplots(2, 1, figsize=(5, 4), dpi=100)
         fig.tight_layout(pad=3.0)
 
@@ -81,7 +116,6 @@ class TemperaturaFrame(tk.Frame):
             axs[0].tick_params(axis='x', rotation=45)
             axs[0].set_xlabel("Hora")
 
-
         if datos_abierto:
             tiempos, temps = zip(*datos_abierto)
             axs[1].plot(tiempos, temps, marker='o', color='orange')
@@ -89,7 +123,6 @@ class TemperaturaFrame(tk.Frame):
             axs[1].set_ylabel("Temperatura (°C)")
             axs[1].tick_params(axis='x', rotation=45)
             axs[1].set_xlabel("Hora")
-
 
         canvas = FigureCanvasTkAgg(fig, master=self.canvas_frame)
         canvas.draw()

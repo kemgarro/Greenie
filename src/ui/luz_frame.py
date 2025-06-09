@@ -24,11 +24,11 @@ class LuzFrame(tk.Frame):
         luz_frame.pack(pady=10, fill="x", padx=10)
 
         self.btn_luz = tk.Button(luz_frame, text="Encender Luz", bg="#7AC35D", fg="white",
-                                 command=lambda: self.serial_manager.enviar("ENCENDER"))
+                                 command=lambda: self.controlar_luz(True))
         self.btn_luz.pack(pady=5)
 
         self.btn_luz_apagar = tk.Button(luz_frame, text="Apagar Luz", bg="#7AC35D", fg="white",
-                                 command=lambda: self.serial_manager.enviar("APAGAR"))
+                                 command=lambda: self.controlar_luz(False))
         self.btn_luz_apagar.pack(pady=5)
 
         ciclo_luz = tk.LabelFrame(luz_frame, text="Ciclo Automático", bg="#FFFFFF", padx=5, pady=5)
@@ -81,18 +81,21 @@ class LuzFrame(tk.Frame):
         tk.Button(self, text="Volver", bg="#7AC35D", fg="white",
                   command=self.volver_callback).pack(pady=5)
 
-    def toggle_luz(self):
-        self.estado_luz = not self.estado_luz
-        estado = "encendida" if self.estado_luz else "apagada"
-        self.btn_luz.config(text="Apagar Luz" if self.estado_luz else "Encender Luz")
-        self.registrar_evento(f"Luz {estado} manualmente.")
+    def controlar_luz(self, encender):
+        try:
+            comando = "ACTIVAR:LEDS" if encender else "DESACTIVAR:LEDS"
+            self.serial_manager.enviar(comando)
+            estado = "encendida" if encender else "apagada"
+            self.registrar_evento(f"Luz {estado} manualmente.")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo controlar la luz: {e}")
 
     def toggle_techo(self):
         self.estado_techo = not self.estado_techo
         estado = "abierto" if self.estado_techo else "cerrado"
         self.btn_techo.config(text="Cerrar Techo" if self.estado_techo else "Abrir Techo")
         self.registrar_evento(f"Techo {estado} manualmente.")
-        comando = "ABRIR_TECHO" if self.estado_techo else "CERRAR_TECHO"
+        comando = "SERVO:180" if self.estado_techo else "SERVO:0"
         self.serial_manager.enviar(comando)
 
     def aplicar_ciclo_luz(self):
@@ -142,5 +145,6 @@ class LuzFrame(tk.Frame):
     def registrar_evento(self, texto):
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         linea = f"[{timestamp}] {texto}\n"
+        os.makedirs("data", exist_ok=True)
         with open("data/historial_luz.txt", "a") as f:
             f.write(linea)
