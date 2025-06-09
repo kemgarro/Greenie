@@ -6,20 +6,25 @@ class SerialManager:
         self.pines = pines or {}
         try:
             self.arduino = serial.Serial(puerto, baudrate, timeout=1)
-            time.sleep(2)  # Esperar a que el Arduino se reinicie
-            print(f"Arduino conectado en {puerto}")
-        except serial.SerialException:
+            time.sleep(2)  # Esperar que el Arduino se reinicie
+            print(f"[SerialManager] Conectado a {puerto}")
+        except serial.SerialException as e:
             self.arduino = None
-            print("Error: No se pudo abrir el puerto serial.")
+            print(f"[SerialManager] Error al abrir el puerto serial: {e}")
 
     def enviar(self, comando):
         if self.arduino and self.arduino.is_open:
             try:
-                self.arduino.write((comando.strip() + "\n").encode())
-            except serial.SerialException:
-                print("Error al enviar comando al Arduino.")
+                comando_str = comando.strip() + "\n"
+                self.arduino.write(comando_str.encode())
+                print(f"[SerialManager] Enviado: {comando_str.strip()}")
+            except serial.SerialException as e:
+                print(f"[SerialManager] Error al enviar comando: {e}")
         else:
-            print("Arduino no conectado.")
+            print("[SerialManager] Arduino no conectado o puerto cerrado.")
+
+    # ✅ Alias para usar write() directamente
+    write = enviar
 
     def activar(self, componente):
         self.enviar(f"ACTIVAR:{componente.upper()}")
@@ -39,13 +44,19 @@ class SerialManager:
         return self.leer_linea()
 
     def leer_linea(self):
-        if self.arduino and self.arduino.in_waiting:
+        if self.arduino and self.arduino.is_open:
             try:
-                return self.arduino.readline().decode().strip()
-            except:
-                return None
+                if self.arduino.in_waiting > 0:
+                    respuesta = self.arduino.readline().decode(errors="ignore").strip()
+                    print(f"[SerialManager] Recibido: {respuesta}")
+                    return respuesta
+            except serial.SerialException as e:
+                print(f"[SerialManager] Error al leer línea: {e}")
         return None
 
     def cerrar(self):
         if self.arduino and self.arduino.is_open:
             self.arduino.close()
+            print("[SerialManager] Puerto cerrado correctamente.")
+
+

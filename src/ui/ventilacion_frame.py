@@ -16,7 +16,6 @@ class VentilacionFrame(tk.Frame):
         tk.Label(header, text="Ventilación", font=("Segoe UI", 16, "bold"),
                  fg="white", bg="#096B35").pack(pady=15)
 
-        # Encendido/apagado manual
         manual = tk.LabelFrame(self, text="Manual", bg="#FFFFFF", padx=10, pady=10)
         manual.pack(pady=10)
 
@@ -25,7 +24,6 @@ class VentilacionFrame(tk.Frame):
         tk.Button(manual, text="Apagar", bg="#7AC35D", fg="white",
                   command=lambda: self.controlar_ventilador(False)).pack(side="left", padx=5)
 
-        # Ciclo automático
         ciclo = tk.LabelFrame(self, text="Ciclo Automático", bg="#FFFFFF", padx=10, pady=10)
         ciclo.pack(pady=10)
 
@@ -40,7 +38,6 @@ class VentilacionFrame(tk.Frame):
         tk.Button(ciclo, text="Programar ciclo", bg="#7AC35D", fg="white",
                   command=self.programar_ciclo).grid(row=1, column=0, columnspan=4, pady=5)
 
-        # Horario diario
         horario = tk.LabelFrame(self, text="Encendido Diario", bg="#FFFFFF", padx=10, pady=10)
         horario.pack(pady=10)
 
@@ -51,18 +48,16 @@ class VentilacionFrame(tk.Frame):
         tk.Button(horario, text="Programar horario", bg="#7AC35D", fg="white",
                   command=self.programar_horario).grid(row=1, column=0, columnspan=2, pady=5)
 
-        # Encendido automático por temperatura
         auto = tk.LabelFrame(self, text="Encendido Automático", bg="#FFFFFF", padx=10, pady=10)
         auto.pack(pady=10)
 
-        tk.Label(auto, text="Umbral (\u00b0C):", bg="#FFFFFF").grid(row=0, column=0)
+        tk.Label(auto, text="Umbral (°C):", bg="#FFFFFF").grid(row=0, column=0)
         self.umbral_temp = tk.Entry(auto, width=7)
         self.umbral_temp.grid(row=0, column=1)
 
         tk.Button(auto, text="Establecer umbral", bg="#7AC35D", fg="white",
                   command=self.establecer_umbral).grid(row=1, column=0, columnspan=2, pady=5)
 
-        # Ver historial y volver
         tk.Button(self, text="Ver historial", bg="#7AC35D", fg="white",
                   command=self.ver_historial).pack(pady=5)
 
@@ -70,24 +65,32 @@ class VentilacionFrame(tk.Frame):
                   command=self.volver_callback).pack(pady=10)
 
     def controlar_ventilador(self, encender):
-        comando = "VENTILADOR_ON" if encender else "VENTILADOR_OFF"
-        self.serial_manager.enviar(comando)
-        estado = "encendido" if encender else "apagado"
-        self.registrar_evento(f"Ventilador {estado}")
+        try:
+            comando = "ACTIVAR:VENTILADOR" if encender else "DESACTIVAR:VENTILADOR"
+            self.serial_manager.enviar(comando)
+            estado = "encendido" if encender else "apagado"
+            self.registrar_evento(f"Ventilador {estado}")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo controlar el ventilador: {e}")
 
     def establecer_umbral(self):
         try:
             umbral = float(self.umbral_temp.get())
             self.registrar_evento(f"Ventilación se activará si la temperatura supera {umbral}°C")
+            os.makedirs("data", exist_ok=True)
             with open("data/umbral_ventilacion.txt", "w") as f:
                 f.write(str(umbral))
+
+            # ✅ Enviar al Arduino también
+            self.serial_manager.enviar(f"UMBRAL:TEMP:{umbral}")
         except ValueError:
             messagebox.showerror("Error", "El valor debe ser un número.")
 
     def registrar_evento(self, texto):
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         evento = f"[{now}] {texto}\n"
-        with open("data/historial_ventilacion.txt", "a") as f:
+        os.makedirs("data", exist_ok=True)
+        with open("data/historial_ventilacion.txt", "a", encoding="utf-8") as f:
             f.write(evento)
         messagebox.showinfo("Evento registrado", texto)
 
@@ -118,7 +121,7 @@ class VentilacionFrame(tk.Frame):
 
         path = "data/historial_ventilacion.txt"
         if os.path.exists(path):
-            with open(path, "r") as f:
+            with open(path, "r", encoding="utf-8") as f:
                 text.insert("1.0", f.read())
         else:
             text.insert("1.0", "No hay historial disponible.")

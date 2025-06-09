@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from datetime import datetime
 import matplotlib.pyplot as plt
@@ -11,6 +10,7 @@ class HumedadFrame(tk.Frame):
         self.volver_callback = volver_callback
         self.serial_manager = serial_manager 
         self.archivo = os.path.join("data", "humedad_log.txt")
+
         self.crear_ui()
         self.mostrar_humedad_actual()
         self.mostrar_graficos()
@@ -24,12 +24,32 @@ class HumedadFrame(tk.Frame):
         self.lbl_actual = tk.Label(self, text="", font=("Segoe UI", 14), bg="#FFFFFF")
         self.lbl_actual.pack(pady=10)
 
+        tk.Button(self, text="Leer del Arduino", bg="#7AC35D", fg="white",
+                  font=("Segoe UI", 10), width=15,
+                  command=self.leer_humedad_desde_arduino).pack(pady=5)
+
         self.canvas_frame = tk.Frame(self, bg="#FFFFFF")
         self.canvas_frame.pack(pady=10)
 
         tk.Button(self, text="Volver", bg="#7AC35D", fg="white",
                   font=("Segoe UI", 10), width=12,
                   command=self.volver_callback).pack(pady=10)
+
+    def leer_humedad_desde_arduino(self):
+        try:
+            self.serial_manager.write("LEER:HUMEDAD")
+            respuesta = self.serial_manager.leer_linea()
+
+            if respuesta and "|" in respuesta:
+                humedad, estado = respuesta.split("|")
+                with open(self.archivo, "a", encoding="utf-8") as f:
+                    f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M')}|{humedad}|{estado}\n")
+                self.lbl_actual.config(text=f"Humedad actual: {humedad}%")
+                self.mostrar_graficos()
+            else:
+                self.lbl_actual.config(text="No se recibió una respuesta válida del Arduino.")
+        except Exception as e:
+            self.lbl_actual.config(text=f"Error: {e}")
 
     def mostrar_humedad_actual(self):
         if not os.path.exists(self.archivo):
@@ -70,6 +90,9 @@ class HumedadFrame(tk.Frame):
                 except:
                     continue
 
+        for widget in self.canvas_frame.winfo_children():
+            widget.destroy()
+
         fig, axs = plt.subplots(2, 1, figsize=(5, 4), dpi=100)
         fig.tight_layout(pad=3.0)
 
@@ -88,7 +111,6 @@ class HumedadFrame(tk.Frame):
             axs[1].set_ylabel("Humedad (%)")
             axs[1].tick_params(axis='x', rotation=45)
             axs[1].set_xlabel("Hora")
-
 
         canvas = FigureCanvasTkAgg(fig, master=self.canvas_frame)
         canvas.draw()
