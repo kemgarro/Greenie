@@ -3,7 +3,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
-
+import time
 class TemperaturaFrame(tk.Frame):
     def __init__(self, parent, volver_callback, serial_manager):
         super().__init__(parent, bg="#FFFFFF")
@@ -23,7 +23,6 @@ class TemperaturaFrame(tk.Frame):
         self.lbl_actual = tk.Label(self, text="", font=("Segoe UI", 14), bg="#FFFFFF")
         self.lbl_actual.pack(pady=10)
 
-        # Botón para leer del Arduino
         tk.Button(self, text="Leer del Arduino", bg="#7AC35D", fg="white",
                   command=self.leer_temperatura_desde_arduino).pack(pady=5)
 
@@ -36,17 +35,16 @@ class TemperaturaFrame(tk.Frame):
 
     def leer_temperatura_desde_arduino(self):
         try:
+            self.serial_manager.arduino.reset_input_buffer()
             self.serial_manager.write("LEER:DHT")
+            time.sleep(5)
             respuesta = self.serial_manager.leer_linea()
 
             if respuesta is not None and respuesta.startswith("T:") and "H:" in respuesta:
-                # Extraer temperatura
                 partes = respuesta.replace("T:", "").replace("H:", "").split()
                 temp = float(partes[0])
-
                 estado = "abierto" if self.obtener_estado_techo() else "cerrado"
 
-                # Guardar registro
                 os.makedirs("data", exist_ok=True)
                 with open(self.archivo, "a", encoding="utf-8") as f:
                     f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M')}|{temp}|{estado}\n")
@@ -59,9 +57,7 @@ class TemperaturaFrame(tk.Frame):
             self.lbl_actual.config(text=f"Error: {e}")
 
     def obtener_estado_techo(self):
-        # Simulación: podrías almacenar el estado real en un archivo o variable
-        # Si deseas leer del Arduino, podrías usar otro comando serial
-        return False  # Por ahora se asume cerrado
+        return False
 
     def mostrar_temperatura_actual(self):
         if not os.path.exists(self.archivo):

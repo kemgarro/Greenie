@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import os
 import datetime
+import threading
 
 class LuzFrame(tk.Frame):
     def __init__(self, master, volver_callback, serial_manager):
@@ -10,6 +11,8 @@ class LuzFrame(tk.Frame):
         self.serial_manager = serial_manager
         self.estado_luz = False
         self.estado_techo = False
+        self.timer_ciclo_luz = None
+        self.timer_ciclo_techo = None  # 🔁 Referencia al ciclo automático del techo
         self.crear_interfaz()
 
     def crear_interfaz(self):
@@ -99,14 +102,41 @@ class LuzFrame(tk.Frame):
         self.serial_manager.enviar(comando)
 
     def aplicar_ciclo_luz(self):
-        h = self.luz_cada_h.get()
-        m = self.luz_por_m.get()
-        self.registrar_evento(f"Ciclo luz programado: cada {h}h por {m}min.")
+        try:
+            h = float(self.luz_cada_h.get())
+            m = float(self.luz_por_m.get())
+
+            if h <= 0 or m <= 0 or m >= h * 60:
+                raise ValueError
+
+            # Detener ciclo anterior si existe
+            if self.timer_ciclo_luz:
+                self.timer_ciclo_luz.cancel()
+
+            self.registrar_evento(f"Ciclo luz programado: cada {h}h por {m}min.")
+            self.iniciar_ciclo_luz(horas=h, minutos=m)
+
+        except ValueError:
+            messagebox.showerror("Error", "Valores inválidos. Usa números positivos y asegúrate de que minutos < horas*60.")
+
 
     def aplicar_ciclo_techo(self):
-        h = self.techo_cada_h.get()
-        m = self.techo_por_m.get()
-        self.registrar_evento(f"Ciclo techo programado: cada {h}h por {m}min.")
+        try:
+            h = float(self.techo_cada_h.get())
+            m = float(self.techo_por_m.get())
+
+            if h <= 0 or m <= 0 or m >= h * 60:
+                raise ValueError
+
+            if self.timer_ciclo_techo:
+                self.timer_ciclo_techo.cancel()
+
+            self.registrar_evento(f"Ciclo techo programado: cada {h}h por {m}min.")
+            self.iniciar_ciclo_techo(horas=h, minutos=m)
+
+        except ValueError:
+            messagebox.showerror("Error", "Valores inválidos. Usa números positivos y asegúrate de que minutos < horas*60.")
+
 
     def programar_hora_luz(self):
         hora = self.hora_fija_luz.get().strip()
@@ -125,6 +155,65 @@ class LuzFrame(tk.Frame):
             messagebox.showinfo("Programado", f"Apertura del techo programada para las {hora} diariamente.")
         except ValueError:
             messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
+
+    def iniciar_ciclo_luz(self, horas, minutos):
+        def ciclo():
+            try:
+                self.controlar_luz(True)
+                self.registrar_evento("Encendido automático de luz (ciclo)")
+            except:
+                pass
+
+            # Apagar después de Y minutos
+            def apagar():
+                try:
+                    self.controlar_luz(False)
+                    self.registrar_evento("Apagado automático de luz (ciclo)")
+                except:
+                    pass
+
+                # Esperar el resto del tiempo hasta la siguiente repetición
+                total_segundos = horas * 3600
+                espera_restante = max(0, total_segundos - minutos * 60)
+                self.timer_ciclo_luz = threading.Timer(espera_restante, ciclo)
+                self.timer_ciclo_luz.start()
+
+            self.timer_ciclo_luz = threading.Timer(minutos * 60, apagar)
+            self.timer_ciclo_luz.start()
+
+        # Iniciar primer ciclo
+        ciclo()
+
+    def iniciar_ciclo_techo(self, horas, minutos):
+        def ciclo():
+            try:
+                self.estado_techo = True
+                self.btn_techo.config(text="Cerrar Techo")
+                self.serial_manager.enviar("SERVO:180")
+                self.registrar_evento("Techo abierto automáticamente (ciclo)")
+            except:
+                pass
+
+            def cerrar():
+                try:
+                    self.estado_techo = False
+                    self.btn_techo.config(text="Abrir Techo")
+                    self.serial_manager.enviar("SERVO:0")
+                    self.registrar_evento("Techo cerrado automáticamente (ciclo)")
+                except:
+                    pass
+
+                total_segundos = horas * 3600
+                espera_restante = max(0, total_segundos - minutos * 60)
+                self.timer_ciclo_techo = threading.Timer(espera_restante, ciclo)
+                self.timer_ciclo_techo.start()
+
+            self.timer_ciclo_techo = threading.Timer(minutos * 60, cerrar)
+            self.timer_ciclo_techo.start()
+
+        ciclo()
+
+
 
     def ver_historial(self):
         top = tk.Toplevel(self)

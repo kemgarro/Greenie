@@ -2,7 +2,7 @@ import serial
 import time
 
 class SerialManager:
-    def __init__(self, puerto="COM14", baudrate=9600, pines=None):
+    def __init__(self, puerto="COM4", baudrate=9600, pines=None):
         self.pines = pines or {}
         try:
             self.arduino = serial.Serial(puerto, baudrate, timeout=1)
@@ -46,10 +46,12 @@ class SerialManager:
     def leer_linea(self):
         if self.arduino and self.arduino.is_open:
             try:
-                if self.arduino.in_waiting > 0:
-                    respuesta = self.arduino.readline().decode(errors="ignore").strip()
-                    print(f"[SerialManager] Recibido: {respuesta}")
-                    return respuesta
+                time.sleep(5)  # Esperar a que Arduino tenga tiempo de responder
+                while self.arduino.in_waiting > 0:
+                    linea = self.arduino.readline().decode(errors="ignore").strip()
+                    if linea:
+                        print(f"[SerialManager] Recibido: {linea}")
+                        return linea
             except serial.SerialException as e:
                 print(f"[SerialManager] Error al leer línea: {e}")
         return None

@@ -3,6 +3,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import os
+import time
 
 class HumedadFrame(tk.Frame):
     def __init__(self, parent, volver_callback, serial_manager):
@@ -37,7 +38,9 @@ class HumedadFrame(tk.Frame):
 
     def leer_humedad_desde_arduino(self):
         try:
+            self.serial_manager.arduino.reset_input_buffer()
             self.serial_manager.write("LEER:HUMEDAD")
+            time.sleep(5)
             respuesta = self.serial_manager.leer_linea()
 
             if respuesta and "|" in respuesta:

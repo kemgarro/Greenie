@@ -116,3 +116,262 @@
 [2025-06-07 15:40:58] Luz apagada manualmente.
 [2025-06-07 15:40:59] Techo abierto manualmente.
 [2025-06-07 15:41:00] Techo cerrado manualmente.
+[2025-06-09 12:05:40] Luz encendida manualmente.
+[2025-06-09 12:30:03] Luz encendida manualmente.
+[2025-06-09 12:30:07] Techo abierto manualmente.
+[2025-06-09 12:30:10] Techo cerrado manualmente.
+[2025-06-09 12:30:29] Techo abierto manualmente.
+[2025-06-09 12:30:33] Techo cerrado manualmente.
+[2025-06-09 12:33:55] Luz encendida manualmente.
+[2025-06-09 12:33:58] Luz apagada manualmente.
+[2025-06-09 12:34:01] Techo abierto manualmente.
+[2025-06-09 12:34:02] Techo cerrado manualmente.
+[2025-06-09 12:50:12] Luz encendida manualmente.
+[2025-06-09 12:50:16] Luz apagada manualmente.
+[2025-06-09 12:50:18] Techo abierto manualmente.
+[2025-06-09 12:50:19] Techo cerrado manualmente.
+[2025-06-09 13:06:24] Luz encendida manualmente.
+[2025-06-09 13:06:25] Luz apagada manualmente.
+[2025-06-09 13:06:27] Techo abierto manualmente.
+[2025-06-09 17:17:41] Luz encendida manualmente.
+[2025-06-09 17:17:43] Luz apagada manualmente.
+[2025-06-09 17:18:11] Techo abierto manualmente.
+[2025-06-09 17:42:31] Luz encendida manualmente.
+[2025-06-09 17:42:37] Techo abierto manualmente.
+[2025-06-09 17:42:39] Techo cerrado manualmente.
+[2025-06-09 17:42:41] Techo abierto manualmente.
+[2025-06-09 17:50:12] Techo abierto manualmente.
+[2025-06-09 18:42:17] Luz encendida manualmente.
+[2025-06-09 18:42:24] Luz apagada manualmente.
+[2025-06-09 18:43:29] Luz encendida manualmente.
+[2025-06-09 18:43:35] Techo abierto manualmente.
+[2025-06-09 18:44:41] Luz apagada manualmente.
+[2025-06-09 19:21:14] Ciclo luz programado: cada 0.5h por 2.0min.
+[2025-06-09 19:21:14] Luz encendida manualmente.
+[2025-06-09 19:21:14] Encendido automático de luz (ciclo)
+[2025-06-09 19:21:27] Ciclo luz programado: cada 1.0h por 2.0min.
+[2025-06-09 19:21:27] Luz encendida manualmente.
+[2025-06-09 19:21:27] Encendido automático de luz (ciclo)
+[2025-06-09 19:21:34] Luz apagada manualmente.
+[2025-06-09 19:21:35] Ciclo luz programado: cada 1.0h por 2.0min.
+[2025-06-09 19:21:35] Luz encendida manualmente.
+[2025-06-09 19:21:35] Encendido automático de luz (ciclo)
+[2025-06-09 19:22:52] Ciclo luz programado: cada 1.0h por 2.0min.
+[2025-06-09 19:22:52] Luz encendida manualmente.
+[2025-06-09 19:22:52] Encendido automático de luz (ciclo)
+[2025-06-09 19:24:52] Luz apagada manualmente.
+[2025-06-09 19:24:52] Apagado automático de luz (ciclo)
+[2025-06-09 19:27:21] Ciclo luz programado: cada 1.0h por 2.0min.
+[2025-06-09 19:27:21] Luz encendida manualmente.
+[2025-06-09 19:27:21] Encendido automático de luz (ciclo)
+[2025-06-09 19:29:21] Luz apagada manualmente.
+[2025-06-09 19:29:21] Apagado automático de luz (ciclo)
+[2025-06-09 19:33:35] Ciclo luz programado: cada 0.01h por 0.02min.
+[2025-06-09 19:33:35] Luz encendida manualmente.
+[2025-06-09 19:33:35] Encendido automático de luz (ciclo)
+[2025-06-09 19:33:36] Luz apagada manualmente.
+[2025-06-09 19:33:36] Apagado automático de luz (ciclo)
+[2025-06-09 19:34:11] Luz encendida manualmente.
+[2025-06-09 19:34:11] Encendido automático de luz (ciclo)
+[2025-06-09 19:34:12] Luz apagada manualmente.
+[2025-06-09 19:34:12] Apagado automático de luz (ciclo)
+[2025-06-09 19:34:47] Luz encendida manualmente.
+[2025-06-09 19:34:47] Encendido automático de luz (ciclo)
+[2025-06-09 19:34:48] Luz apagada manualmente.
+[2025-06-09 19:34:48] Apagado automático de luz (ciclo)
+[2025-06-09 19:35:23] Luz encendida manualmente.
+[2025-06-09 19:35:23] Encendido automático de luz (ciclo)
+[2025-06-09 19:35:24] Luz apagada manualmente.
+[2025-06-09 19:35:24] Apagado automático de luz (ciclo)
+[2025-06-09 19:35:59] Luz encendida manualmente.
+[2025-06-09 19:35:59] Encendido automático de luz (ciclo)
+[2025-06-09 19:36:00] Luz apagada manualmente.
+[2025-06-09 19:36:00] Apagado automático de luz (ciclo)
+[2025-06-09 19:36:35] Luz encendida manualmente.
+[2025-06-09 19:36:35] Encendido automático de luz (ciclo)
+[2025-06-09 19:36:36] Luz apagada manualmente.
+[2025-06-09 19:36:36] Apagado automático de luz (ciclo)
+[2025-06-09 19:37:11] Luz encendida manualmente.
+[2025-06-09 19:37:11] Encendido automático de luz (ciclo)
+[2025-06-09 19:37:12] Luz apagada manualmente.
+[2025-06-09 19:37:12] Apagado automático de luz (ciclo)
+[2025-06-09 19:37:47] Luz encendida manualmente.
+[2025-06-09 19:37:47] Encendido automático de luz (ciclo)
+[2025-06-09 19:37:49] Luz apagada manualmente.
+[2025-06-09 19:37:49] Apagado automático de luz (ciclo)
+[2025-06-09 19:38:23] Luz encendida manualmente.
+[2025-06-09 19:38:23] Encendido automático de luz (ciclo)
+[2025-06-09 19:38:25] Luz apagada manualmente.
+[2025-06-09 19:38:25] Apagado automático de luz (ciclo)
+[2025-06-09 19:38:59] Luz encendida manualmente.
+[2025-06-09 19:38:59] Encendido automático de luz (ciclo)
+[2025-06-09 19:39:01] Luz apagada manualmente.
+[2025-06-09 19:39:01] Apagado automático de luz (ciclo)
+[2025-06-09 19:39:35] Luz encendida manualmente.
+[2025-06-09 19:39:35] Encendido automático de luz (ciclo)
+[2025-06-09 19:39:37] Luz apagada manualmente.
+[2025-06-09 19:39:37] Apagado automático de luz (ciclo)
+[2025-06-09 19:40:11] Luz encendida manualmente.
+[2025-06-09 19:40:11] Encendido automático de luz (ciclo)
+[2025-06-09 19:40:13] Luz apagada manualmente.
+[2025-06-09 19:40:13] Apagado automático de luz (ciclo)
+[2025-06-09 19:40:47] Luz encendida manualmente.
+[2025-06-09 19:40:47] Encendido automático de luz (ciclo)
+[2025-06-09 19:40:49] Luz apagada manualmente.
+[2025-06-09 19:40:49] Apagado automático de luz (ciclo)
+[2025-06-09 19:41:23] Luz encendida manualmente.
+[2025-06-09 19:41:23] Encendido automático de luz (ciclo)
+[2025-06-09 19:41:25] Luz apagada manualmente.
+[2025-06-09 19:41:25] Apagado automático de luz (ciclo)
+[2025-06-09 19:41:59] Luz encendida manualmente.
+[2025-06-09 19:41:59] Encendido automático de luz (ciclo)
+[2025-06-09 19:42:01] Luz apagada manualmente.
+[2025-06-09 19:42:01] Apagado automático de luz (ciclo)
+[2025-06-09 19:42:36] Luz encendida manualmente.
+[2025-06-09 19:42:36] Encendido automático de luz (ciclo)
+[2025-06-09 19:42:37] Luz apagada manualmente.
+[2025-06-09 19:42:37] Apagado automático de luz (ciclo)
+[2025-06-09 19:43:12] Luz encendida manualmente.
+[2025-06-09 19:43:12] Encendido automático de luz (ciclo)
+[2025-06-09 19:43:13] Luz apagada manualmente.
+[2025-06-09 19:43:13] Apagado automático de luz (ciclo)
+[2025-06-09 19:43:48] Luz encendida manualmente.
+[2025-06-09 19:43:48] Encendido automático de luz (ciclo)
+[2025-06-09 19:43:49] Luz apagada manualmente.
+[2025-06-09 19:43:49] Apagado automático de luz (ciclo)
+[2025-06-09 19:44:24] Luz encendida manualmente.
+[2025-06-09 19:44:24] Encendido automático de luz (ciclo)
+[2025-06-09 19:44:25] Luz apagada manualmente.
+[2025-06-09 19:44:25] Apagado automático de luz (ciclo)
+[2025-06-09 19:45:00] Luz encendida manualmente.
+[2025-06-09 19:45:00] Encendido automático de luz (ciclo)
+[2025-06-09 19:45:01] Luz apagada manualmente.
+[2025-06-09 19:45:01] Apagado automático de luz (ciclo)
+[2025-06-09 19:45:36] Luz encendida manualmente.
+[2025-06-09 19:45:36] Encendido automático de luz (ciclo)
+[2025-06-09 19:45:37] Luz apagada manualmente.
+[2025-06-09 19:45:37] Apagado automático de luz (ciclo)
+[2025-06-09 19:46:12] Luz encendida manualmente.
+[2025-06-09 19:46:12] Encendido automático de luz (ciclo)
+[2025-06-09 19:46:13] Luz apagada manualmente.
+[2025-06-09 19:46:13] Apagado automático de luz (ciclo)
+[2025-06-09 19:46:48] Luz encendida manualmente.
+[2025-06-09 19:46:48] Encendido automático de luz (ciclo)
+[2025-06-09 19:46:49] Luz apagada manualmente.
+[2025-06-09 19:46:49] Apagado automático de luz (ciclo)
+[2025-06-09 19:47:24] Luz encendida manualmente.
+[2025-06-09 19:47:24] Encendido automático de luz (ciclo)
+[2025-06-09 19:47:25] Luz apagada manualmente.
+[2025-06-09 19:47:25] Apagado automático de luz (ciclo)
+[2025-06-09 19:48:00] Luz encendida manualmente.
+[2025-06-09 19:48:00] Encendido automático de luz (ciclo)
+[2025-06-09 19:48:01] Luz apagada manualmente.
+[2025-06-09 19:48:01] Apagado automático de luz (ciclo)
+[2025-06-09 19:48:36] Luz encendida manualmente.
+[2025-06-09 19:48:36] Encendido automático de luz (ciclo)
+[2025-06-09 19:48:37] Luz apagada manualmente.
+[2025-06-09 19:48:37] Apagado automático de luz (ciclo)
+[2025-06-09 19:49:12] Luz encendida manualmente.
+[2025-06-09 19:49:12] Encendido automático de luz (ciclo)
+[2025-06-09 19:49:13] Luz apagada manualmente.
+[2025-06-09 19:49:13] Apagado automático de luz (ciclo)
+[2025-06-09 19:49:48] Luz encendida manualmente.
+[2025-06-09 19:49:48] Encendido automático de luz (ciclo)
+[2025-06-09 19:49:49] Luz apagada manualmente.
+[2025-06-09 19:49:49] Apagado automático de luz (ciclo)
+[2025-06-09 19:50:24] Luz encendida manualmente.
+[2025-06-09 19:50:24] Encendido automático de luz (ciclo)
+[2025-06-09 19:50:25] Luz apagada manualmente.
+[2025-06-09 19:50:25] Apagado automático de luz (ciclo)
+[2025-06-09 19:51:00] Luz encendida manualmente.
+[2025-06-09 19:51:00] Encendido automático de luz (ciclo)
+[2025-06-09 19:51:01] Luz apagada manualmente.
+[2025-06-09 19:51:01] Apagado automático de luz (ciclo)
+[2025-06-09 19:51:36] Luz encendida manualmente.
+[2025-06-09 19:51:36] Encendido automático de luz (ciclo)
+[2025-06-09 19:51:37] Luz apagada manualmente.
+[2025-06-09 19:51:37] Apagado automático de luz (ciclo)
+[2025-06-09 19:52:12] Luz encendida manualmente.
+[2025-06-09 19:52:12] Encendido automático de luz (ciclo)
+[2025-06-09 19:52:13] Luz apagada manualmente.
+[2025-06-09 19:52:13] Apagado automático de luz (ciclo)
+[2025-06-09 19:52:48] Luz encendida manualmente.
+[2025-06-09 19:52:48] Encendido automático de luz (ciclo)
+[2025-06-09 19:52:49] Luz apagada manualmente.
+[2025-06-09 19:52:49] Apagado automático de luz (ciclo)
+[2025-06-09 19:53:24] Luz encendida manualmente.
+[2025-06-09 19:53:24] Encendido automático de luz (ciclo)
+[2025-06-09 19:53:25] Luz apagada manualmente.
+[2025-06-09 19:53:25] Apagado automático de luz (ciclo)
+[2025-06-09 19:54:00] Luz encendida manualmente.
+[2025-06-09 19:54:00] Encendido automático de luz (ciclo)
+[2025-06-09 19:54:01] Luz apagada manualmente.
+[2025-06-09 19:54:01] Apagado automático de luz (ciclo)
+[2025-06-09 19:54:36] Luz encendida manualmente.
+[2025-06-09 19:54:36] Encendido automático de luz (ciclo)
+[2025-06-09 19:54:37] Luz apagada manualmente.
+[2025-06-09 19:54:37] Apagado automático de luz (ciclo)
+[2025-06-09 19:55:12] Luz encendida manualmente.
+[2025-06-09 19:55:12] Encendido automático de luz (ciclo)
+[2025-06-09 19:55:13] Luz apagada manualmente.
+[2025-06-09 19:55:13] Apagado automático de luz (ciclo)
+[2025-06-09 19:55:48] Luz encendida manualmente.
+[2025-06-09 19:55:48] Encendido automático de luz (ciclo)
+[2025-06-09 19:55:49] Luz apagada manualmente.
+[2025-06-09 19:55:49] Apagado automático de luz (ciclo)
+[2025-06-09 19:56:24] Luz encendida manualmente.
+[2025-06-09 19:56:24] Encendido automático de luz (ciclo)
+[2025-06-09 19:56:25] Luz apagada manualmente.
+[2025-06-09 19:56:25] Apagado automático de luz (ciclo)
+[2025-06-09 20:17:15] Luz encendida manualmente.
+[2025-06-09 20:17:15] Encendido automático de luz (ciclo)
+[2025-06-09 20:17:16] Luz apagada manualmente.
+[2025-06-09 20:17:16] Apagado automático de luz (ciclo)
+[2025-06-09 20:17:51] Luz encendida manualmente.
+[2025-06-09 20:17:51] Encendido automático de luz (ciclo)
+[2025-06-09 20:17:52] Luz apagada manualmente.
+[2025-06-09 20:17:52] Apagado automático de luz (ciclo)
+[2025-06-09 20:18:27] Luz encendida manualmente.
+[2025-06-09 20:18:27] Encendido automático de luz (ciclo)
+[2025-06-09 20:18:28] Luz apagada manualmente.
+[2025-06-09 20:18:28] Apagado automático de luz (ciclo)
+[2025-06-09 20:19:03] Luz encendida manualmente.
+[2025-06-09 20:19:03] Encendido automático de luz (ciclo)
+[2025-06-09 20:19:04] Luz apagada manualmente.
+[2025-06-09 20:19:04] Apagado automático de luz (ciclo)
+[2025-06-09 20:19:39] Luz encendida manualmente.
+[2025-06-09 20:19:39] Encendido automático de luz (ciclo)
+[2025-06-09 20:19:41] Luz apagada manualmente.
+[2025-06-09 20:19:41] Apagado automático de luz (ciclo)
+[2025-06-09 20:20:15] Luz encendida manualmente.
+[2025-06-09 20:20:15] Encendido automático de luz (ciclo)
+[2025-06-09 20:20:17] Luz apagada manualmente.
+[2025-06-09 20:20:17] Apagado automático de luz (ciclo)
+[2025-06-09 20:52:28] Luz encendida manualmente.
+[2025-06-09 20:52:28] Encendido automático de luz (ciclo)
+[2025-06-09 20:52:29] Luz apagada manualmente.
+[2025-06-09 20:52:29] Apagado automático de luz (ciclo)
+[2025-06-09 20:53:04] Luz encendida manualmente.
+[2025-06-09 20:53:04] Encendido automático de luz (ciclo)
+[2025-06-09 20:53:05] Luz apagada manualmente.
+[2025-06-09 20:53:05] Apagado automático de luz (ciclo)
+[2025-06-09 20:53:40] Luz encendida manualmente.
+[2025-06-09 20:53:40] Encendido automático de luz (ciclo)
+[2025-06-09 20:53:41] Luz apagada manualmente.
+[2025-06-09 20:53:41] Apagado automático de luz (ciclo)
+[2025-06-09 20:54:16] Luz encendida manualmente.
+[2025-06-09 20:54:16] Encendido automático de luz (ciclo)
+[2025-06-09 20:54:17] Luz apagada manualmente.
+[2025-06-09 20:54:17] Apagado automático de luz (ciclo)
+[2025-06-09 20:54:52] Luz encendida manualmente.
+[2025-06-09 20:54:52] Encendido automático de luz (ciclo)
+[2025-06-09 20:54:53] Luz apagada manualmente.
+[2025-06-09 20:54:53] Apagado automático de luz (ciclo)
+[2025-06-09 20:55:28] Luz encendida manualmente.
+[2025-06-09 20:55:28] Encendido automático de luz (ciclo)
+[2025-06-09 20:55:29] Luz apagada manualmente.
+[2025-06-09 20:55:29] Apagado automático de luz (ciclo)
+[2025-06-09 22:01:35] Luz encendida manualmente.
+[2025-06-09 22:01:35] Encendido automático de luz (ciclo)
+[2025-06-09 22:01:37] Luz apagada manualmente.
+[2025-06-09 22:01:37] Apagado automático de luz (ciclo)
