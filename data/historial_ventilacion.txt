@@ -42,3 +42,5 @@
 [2025-06-09 17:18:24] Ventilador apagado
 [2025-06-09 17:50:19] Ventilador apagado
 [2025-06-09 18:44:15] Ventilador apagado
+[2025-06-10 22:58:04] Ventilador apagado
+[2025-06-10 22:58:10] Ventilador encendido

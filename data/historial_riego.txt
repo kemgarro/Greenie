@@ -85,3 +85,7 @@
 [2025-06-09 17:48:36] Riego apagado
 [2025-06-09 17:50:02] Riego apagado
 [2025-06-09 18:44:29] Riego apagado
+[2025-06-10 22:58:20] Riego apagado
+[2025-06-10 22:58:25] Riego encendido
+[2025-06-10 22:58:42] Riego apagado
+[2025-06-10 23:04:10] Riego apagado
