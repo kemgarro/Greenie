@@ -1,4 +1,4 @@
-Jose,2807,Jose Alpizar,admin
-Kembly,2907,Kembly Garro,cliente
-001-A,0212,Luis Mejias,cliente
-a,1,a,cliente
+a,1111,María González,admin,2025-02-28,Avenida Central 987,87004567
+carlossoto,pass2025,Carlos Soto,cliente,2025-03-10,Barrio Escalante,85321234
+laura88,hCoRp456,Laura Méndez,cliente,2025-04-05,Colonia La Florida,88451230
+91291281,1111,Diego Mora,admin,2025-06-11,hola,12234232

@@ -1,9 +1,9 @@
-
 import tkinter as tk
 import os
 import subprocess
 import sys
 from src.ui.usuarios_frame import UsuariosFrame
+from src.ui.productos_frame import ProductosFrame  # AGREGAR ESTA LÍNEA
 from src.ui.llamadas_frame import LlamadasFrame
 from src.ui.seguimiento_frame import SeguimientoFrame
 from src.ui.historial_frame import HistorialFrame
@@ -27,11 +27,10 @@ class PanelAdmin:
 
         clases_especiales = {
             "usuarios": UsuariosFrame,
+            "productos": ProductosFrame,  # AGREGAR ESTA LÍNEA
             "llamadas": LlamadasFrame,
             "seguimiento": SeguimientoFrame,
             "historial": HistorialFrame,
-
-
         }
 
         secciones = ["usuarios", "productos", "llamadas", "seguimiento", "historial"]
