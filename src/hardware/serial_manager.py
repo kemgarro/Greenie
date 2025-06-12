@@ -2,7 +2,8 @@ import serial
 import time
 
 class SerialManager:
-    def __init__(self, puerto="COM4", baudrate=9600, pines=None):
+    def __init__(self, puerto="COM5"
+    "", baudrate=9600, pines=None):
         self.pines = pines or {}
         try:
             self.arduino = serial.Serial(puerto, baudrate, timeout=1)

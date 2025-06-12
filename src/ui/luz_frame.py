@@ -32,11 +32,15 @@ class LuzFrame(tk.Frame):
         luz_frame = tk.LabelFrame(self, text="Luz Artificial", bg="#FFFFFF", padx=10, pady=10)
         luz_frame.pack(pady=10, fill="x", padx=10)
 
-        self.btn_luz = tk.Button(luz_frame, text="Encender Luz", bg="#7AC35D", fg="white", command=lambda: self.controlar_luz(True))
-        self.btn_luz.pack(pady=5)
+        #self.btn_luz = tk.Button(luz_frame, text="Encender Luz", bg="#7AC35D", fg="white", command=lambda: self.controlar_luz(True))
+        #self.btn_luz.pack(pady=5)
 
-        self.btn_luz_apagar = tk.Button(luz_frame, text="Apagar Luz", bg="#7AC35D", fg="white", command=lambda: self.controlar_luz(False))
-        self.btn_luz_apagar.pack(pady=5)
+        #self.btn_luz_apagar = tk.Button(luz_frame, text="Apagar Luz", bg="#7AC35D", fg="white", command=lambda: self.controlar_luz(False))
+        #self.btn_luz_apagar.pack(pady=5)
+
+        self.btn_toggle_luz = tk.Button(luz_frame, text="Encender Luz", bg="#7AC35D", fg="white", command=self.toggle_luz)
+        self.btn_toggle_luz.pack(pady=5)
+
 
         self.crear_ciclo_luz(luz_frame)
         self.crear_hora_fija_luz(luz_frame)
@@ -106,6 +110,22 @@ class LuzFrame(tk.Frame):
         comando = "SERVO:180" if self.estado_techo else "SERVO:0"
         self.serial_manager.enviar(comando)
         self.registrar_evento(f"Techo {estado} manualmente.")
+
+    def toggle_luz(self):
+        self.estado_luz = not self.estado_luz
+        estado = "encendida" if self.estado_luz else "apagada"
+
+        try:
+            comando = "ACTIVAR:LEDS" if self.estado_luz else "DESACTIVAR:LEDS"
+            self.serial_manager.enviar(comando)
+            self.btn_toggle_luz.config(
+                text="Apagar Luz" if self.estado_luz else "Encender Luz"
+            )
+            self.registrar_evento(f"Luz {estado} manualmente.")
+        except Exception as e:
+            print(f"[LuzFrame] Error al cambiar estado de la luz: {e}")
+            self.estado_luz = not self.estado_luz  # Revertir estado en caso de fallo
+
 
     def aplicar_ciclo_luz(self):
         try:

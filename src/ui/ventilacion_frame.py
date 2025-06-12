@@ -2,12 +2,18 @@ import tkinter as tk
 from tkinter import messagebox
 import datetime
 import os
+import threading
 
 class VentilacionFrame(tk.Frame):
     def __init__(self, master, volver_callback, serial_manager):
         super().__init__(master, bg="#FFFFFF")
         self.volver_callback = volver_callback
         self.serial_manager = serial_manager
+        self.estado_ventilador = False
+        self.timer_ciclo = None
+        self.after_id_horario = None
+        self.hora_programada = None
+
         self.crear_interfaz()
 
     def crear_interfaz(self):
@@ -19,10 +25,9 @@ class VentilacionFrame(tk.Frame):
         manual = tk.LabelFrame(self, text="Manual", bg="#FFFFFF", padx=10, pady=10)
         manual.pack(pady=10)
 
-        tk.Button(manual, text="Encender", bg="#7AC35D", fg="white",
-                  command=lambda: self.controlar_ventilador(True)).pack(side="left", padx=5)
-        tk.Button(manual, text="Apagar", bg="#7AC35D", fg="white",
-                  command=lambda: self.controlar_ventilador(False)).pack(side="left", padx=5)
+        self.btn_toggle_ventilador = tk.Button(manual, text="Encender", bg="#7AC35D", fg="white",command=self.toggle_ventilador)
+        self.btn_toggle_ventilador.pack(pady=5)
+
 
         ciclo = tk.LabelFrame(self, text="Ciclo Automático", bg="#FFFFFF", padx=10, pady=10)
         ciclo.pack(pady=10)
@@ -80,35 +85,72 @@ class VentilacionFrame(tk.Frame):
             os.makedirs("data", exist_ok=True)
             with open("data/umbral_ventilacion.txt", "w") as f:
                 f.write(str(umbral))
-
-            # ✅ Enviar al Arduino también
             self.serial_manager.enviar(f"UMBRAL:TEMP:{umbral}")
         except ValueError:
             messagebox.showerror("Error", "El valor debe ser un número.")
 
-    def registrar_evento(self, texto):
-        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        evento = f"[{now}] {texto}\n"
-        os.makedirs("data", exist_ok=True)
-        with open("data/historial_ventilacion.txt", "a", encoding="utf-8") as f:
-            f.write(evento)
-        messagebox.showinfo("Evento registrado", texto)
-
     def programar_ciclo(self):
         try:
-            h = int(self.ciclo_horas.get())
-            m = int(self.ciclo_minutos.get())
+            h = float(self.ciclo_horas.get())
+            m = float(self.ciclo_minutos.get())
+            if h <= 0 or m <= 0 or m >= h * 60:
+                raise ValueError
+            if self.timer_ciclo:
+                self.timer_ciclo.cancel()
             self.registrar_evento(f"Ventilación programada cada {h}h por {m}min")
+            self.iniciar_ciclo_ventilador(h, m)
         except ValueError:
             messagebox.showerror("Error", "Valores inválidos para el ciclo")
+
+             
+
+    def iniciar_ciclo_ventilador(self, horas, minutos):
+        def ciclo():
+            try:
+                self.controlar_ventilador(True)
+                self.registrar_evento("Ventilador encendido (ciclo)")
+            except:
+                pass
+
+            def apagar():
+                try:
+                    self.controlar_ventilador(False)
+                    self.registrar_evento("Ventilador apagado (ciclo)")
+                except:
+                    pass
+                espera_restante = max(0, horas * 3600 - minutos * 60)
+                self.timer_ciclo = threading.Timer(espera_restante, ciclo)
+                self.timer_ciclo.start()
+
+            self.timer_ciclo = threading.Timer(minutos * 60, apagar)
+            self.timer_ciclo.start()
+
+        ciclo()
 
     def programar_horario(self):
         hora = self.hora_fija.get().strip()
         try:
             datetime.datetime.strptime(hora, "%H:%M")
+            self.hora_programada = hora
+            self.verificar_hora_diaria()
             self.registrar_evento(f"Encendido diario programado a las {hora}")
+            os.makedirs("data", exist_ok=True)
+            with open("data/hora_ventilacion.txt", "w") as f:
+                f.write(hora)
         except ValueError:
             messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
+
+    def verificar_hora_diaria(self):
+        try:
+            ahora = datetime.datetime.now().strftime("%H:%M")
+            if ahora == self.hora_programada:
+                self.controlar_ventilador(True)
+                self.registrar_evento("Ventilador encendido automáticamente por horario")
+                self.after_id_horario = self.after(61000, self.verificar_hora_diaria)
+                return
+        except:
+            pass
+        self.after_id_horario = self.after(10000, self.verificar_hora_diaria)
 
     def ver_historial(self):
         top = tk.Toplevel(self)
@@ -125,3 +167,29 @@ class VentilacionFrame(tk.Frame):
                 text.insert("1.0", f.read())
         else:
             text.insert("1.0", "No hay historial disponible.")
+
+    def registrar_evento(self, texto):
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        evento = f"[{now}] {texto}\n"
+        os.makedirs("data", exist_ok=True)
+        with open("data/historial_ventilacion.txt", "a", encoding="utf-8") as f:
+            f.write(evento)
+        #messagebox.showinfo("Evento registrado", texto)
+
+    def toggle_ventilador(self):
+        self.estado_ventilador = not self.estado_ventilador
+        encender = self.estado_ventilador
+
+        try:
+            comando = "ACTIVAR:VENTILADOR" if encender else "DESACTIVAR:VENTILADOR"
+            self.serial_manager.enviar(comando)
+
+            texto = "Apagar" if encender else "Encender"
+            self.btn_toggle_ventilador.config(text=texto)
+
+            estado_txt = "encendido" if encender else "apagado"
+            self.registrar_evento(f"Ventilador {estado_txt}")
+        except Exception as e:
+            print(f"[VentilacionFrame] Error al alternar ventilador: {e}")
+            self.estado_ventilador = not self.estado_ventilador  # Revertir estado si falla
+
