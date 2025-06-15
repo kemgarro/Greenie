@@ -84,7 +84,7 @@ class LoginUI:
             if datos["rol"] == "admin":
                 PanelAdmin()
             else:
-                PanelCliente(user, serial_manager)
+                PanelCliente(datos, serial_manager)
         else:
             messagebox.showerror("Error", "Credenciales incorrectas")
 

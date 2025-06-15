@@ -133,3 +133,187 @@
 [2025-06-12 00:24:02] Ventilador apagado
 [2025-06-12 01:15:38] Ventilador encendido
 [2025-06-12 01:15:40] Ventilador apagado
+[2025-06-12 10:30:10] Ventilador encendido
+[2025-06-12 10:30:11] Ventilador apagado
+[2025-06-12 10:30:15] Ventilador encendido
+[2025-06-12 10:30:18] Ventilador apagado
+[2025-06-12 10:32:46] Ventilador encendido
+[2025-06-12 10:32:47] Ventilador apagado
+[2025-06-12 10:32:52] Ventilador encendido
+[2025-06-12 10:36:31] Ventilador apagado
+[2025-06-12 10:40:43] Ventilador encendido
+[2025-06-12 10:40:43] Ventilador apagado
+[2025-06-12 10:42:15] Ventilador encendido
+[2025-06-12 10:42:16] Ventilador apagado
+[2025-06-12 11:10:13] Ventilador encendido
+[2025-06-12 11:10:16] Ventilador apagado
+[2025-06-12 11:10:19] Ventilador encendido
+[2025-06-12 11:10:22] Ventilador apagado
+[2025-06-12 11:39:46] Ventilador encendido
+[2025-06-12 11:39:48] Ventilador apagado
+[2025-06-12 11:39:51] Ventilador encendido
+[2025-06-12 11:39:56] Ventilador apagado
+[2025-06-12 11:39:59] Ventilador encendido
+[2025-06-12 11:40:03] Ventilador apagado
+[2025-06-12 11:40:11] Ventilación programada cada 0.001h por 0.02min
+[2025-06-12 11:40:11] Ventilador encendido
+[2025-06-12 11:40:11] Ventilador encendido (ciclo)
+[2025-06-12 11:40:13] Ventilador apagado
+[2025-06-12 11:40:13] Ventilador apagado (ciclo)
+[2025-06-12 11:40:15] Ventilador encendido
+[2025-06-12 11:40:15] Ventilador encendido (ciclo)
+[2025-06-12 11:40:16] Ventilador apagado
+[2025-06-12 11:40:16] Ventilador apagado (ciclo)
+[2025-06-12 11:40:19] Ventilador encendido
+[2025-06-12 11:40:19] Ventilador encendido (ciclo)
+[2025-06-12 11:40:20] Ventilador apagado
+[2025-06-12 11:40:20] Ventilador apagado (ciclo)
+[2025-06-12 11:40:22] Ventilador encendido
+[2025-06-12 11:40:22] Ventilador encendido (ciclo)
+[2025-06-12 11:40:22] Ventilación programada cada 0.1h por 0.02min
+[2025-06-12 11:40:22] Ventilador encendido
+[2025-06-12 11:40:22] Ventilador encendido (ciclo)
+[2025-06-12 11:40:24] Ventilador apagado
+[2025-06-12 11:40:24] Ventilador apagado (ciclo)
+[2025-06-12 12:23:21] Ventilador encendido
+[2025-06-12 12:23:21] Ventilador apagado
+[2025-06-12 12:23:30] Ventilador encendido
+[2025-06-12 12:23:33] Ventilador apagado
+[2025-06-12 12:23:59] Ventilación programada cada 0.001h por 0.02min
+[2025-06-12 12:23:59] Ventilador encendido
+[2025-06-12 12:23:59] Ventilador encendido (ciclo)
+[2025-06-12 12:24:00] Ventilador apagado
+[2025-06-12 12:24:00] Ventilador apagado (ciclo)
+[2025-06-12 12:24:03] Ventilador encendido
+[2025-06-12 12:24:03] Ventilador encendido (ciclo)
+[2025-06-12 12:24:04] Ventilador apagado
+[2025-06-12 12:24:04] Ventilador apagado (ciclo)
+[2025-06-12 12:24:06] Ventilador encendido
+[2025-06-12 12:24:06] Ventilador encendido (ciclo)
+[2025-06-12 12:24:07] Ventilador apagado
+[2025-06-12 12:24:07] Ventilador apagado (ciclo)
+[2025-06-12 12:24:10] Ventilador encendido
+[2025-06-12 12:24:10] Ventilador encendido (ciclo)
+[2025-06-12 12:24:10] Ventilación programada cada 1.0h por 0.02min
+[2025-06-12 12:24:10] Ventilador encendido
+[2025-06-12 12:24:10] Ventilador encendido (ciclo)
+[2025-06-12 12:24:11] Ventilador apagado
+[2025-06-12 12:24:11] Ventilador apagado (ciclo)
+[2025-06-14 16:52:07] Ventilador encendido
+[2025-06-14 16:52:13] Ventilador apagado
+[2025-06-14 16:52:18] Ventilador encendido
+[2025-06-14 16:52:22] Ventilador apagado
+[2025-06-14 17:02:25] Ventilador encendido
+[2025-06-14 17:02:27] Ventilador apagado
+[2025-06-14 17:02:30] Ventilador encendido
+[2025-06-14 17:02:40] Ventilador apagado
+[2025-06-14 17:03:38] Ventilador encendido
+[2025-06-14 17:03:39] Ventilador apagado
+[2025-06-14 17:04:35] Ventilador encendido
+[2025-06-14 17:04:41] Ventilador apagado
+[2025-06-14 17:07:46] Ventilador encendido
+[2025-06-14 17:07:53] Ventilador apagado
+[2025-06-14 17:07:57] Ventilador encendido
+[2025-06-14 17:07:59] Ventilador apagado
+[2025-06-14 17:08:01] Ventilador encendido
+[2025-06-14 17:12:43] Ventilador encendido
+[2025-06-14 17:12:49] Ventilador apagado
+[2025-06-14 17:12:54] Ventilador encendido
+[2025-06-14 17:13:12] Ventilador apagado
+[2025-06-14 17:13:13] Ventilador encendido
+[2025-06-14 17:13:32] Ventilador apagado
+[2025-06-14 17:13:34] Ventilador encendido
+[2025-06-14 17:13:35] Ventilador apagado
+[2025-06-14 17:14:16] Ventilador encendido
+[2025-06-14 17:14:17] Ventilador apagado
+[2025-06-14 17:22:11] Ventilador encendido
+[2025-06-14 17:22:13] Ventilador apagado
+[2025-06-14 17:22:16] Ventilador encendido
+[2025-06-14 17:22:18] Ventilador apagado
+[2025-06-14 17:22:22] Ventilador encendido
+[2025-06-14 17:22:27] Ventilador apagado
+[2025-06-14 17:22:30] Ventilador encendido
+[2025-06-14 17:22:38] Ventilador apagado
+[2025-06-14 17:22:41] Ventilador encendido
+[2025-06-14 17:22:43] Ventilador apagado
+[2025-06-14 17:22:49] Ventilador encendido
+[2025-06-14 17:23:01] Ventilador apagado
+[2025-06-14 17:23:08] Ventilador encendido
+[2025-06-14 17:23:09] Ventilador apagado
+[2025-06-14 17:23:22] Ventilador encendido
+[2025-06-14 17:23:23] Ventilador apagado
+[2025-06-14 17:23:25] Ventilador encendido
+[2025-06-14 17:23:26] Ventilador apagado
+[2025-06-14 17:23:50] Ventilador encendido
+[2025-06-14 17:23:51] Ventilador apagado
+[2025-06-14 17:23:57] Ventilador encendido
+[2025-06-14 17:24:11] Ventilador apagado
+[2025-06-14 17:24:31] Ventilador encendido
+[2025-06-14 17:24:39] Ventilador apagado
+[2025-06-14 17:24:41] Ventilador encendido
+[2025-06-14 17:24:46] Ventilador apagado
+[2025-06-14 17:24:53] Ventilador encendido
+[2025-06-14 17:25:02] Ventilador apagado
+[2025-06-14 17:25:04] Ventilador encendido
+[2025-06-14 17:25:06] Ventilador apagado
+[2025-06-14 17:25:08] Ventilador encendido
+[2025-06-14 17:25:11] Ventilador apagado
+[2025-06-14 17:26:23] Ventilador encendido
+[2025-06-14 17:26:24] Ventilador apagado
+[2025-06-14 17:26:25] Ventilador encendido
+[2025-06-14 17:26:34] Ventilador apagado
+[2025-06-14 17:26:39] Ventilador encendido
+[2025-06-14 17:26:41] Ventilador apagado
+[2025-06-14 17:27:42] Ventilador encendido
+[2025-06-14 17:27:43] Ventilador apagado
+[2025-06-14 17:27:47] Ventilador encendido
+[2025-06-14 17:27:48] Ventilador apagado
+[2025-06-14 17:27:52] Ventilador encendido
+[2025-06-14 17:27:53] Ventilador apagado
+[2025-06-14 17:28:30] Ventilador encendido
+[2025-06-14 17:28:33] Ventilador apagado
+[2025-06-14 17:29:28] Ventilador encendido
+[2025-06-14 17:29:42] Ventilador apagado
+[2025-06-14 17:30:05] Ventilador encendido
+[2025-06-14 17:30:17] Ventilador apagado
+[2025-06-14 17:30:59] Ventilador encendido
+[2025-06-14 17:32:21] Ventilador apagado
+[2025-06-14 17:33:10] Ventilador encendido
+[2025-06-14 17:33:40] Ventilador apagado
+[2025-06-14 17:41:30] Ventilador encendido
+[2025-06-14 17:41:31] Ventilador apagado
+[2025-06-14 17:42:03] Ventilador encendido
+[2025-06-14 17:42:04] Ventilador apagado
+[2025-06-14 18:40:39] Ventilador encendido
+[2025-06-14 18:40:52] Ventilador apagado
+[2025-06-14 18:40:54] Ventilador encendido
+[2025-06-14 18:45:59] Ventilador encendido
+[2025-06-14 18:46:44] Ventilador apagado
+[2025-06-14 18:46:52] Ventilador encendido
+[2025-06-14 18:47:52] Ventilador apagado
+[2025-06-14 18:47:56] Ventilador encendido
+[2025-06-14 18:48:34] Ventilador apagado
+[2025-06-14 18:48:36] Ventilador encendido
+[2025-06-14 18:48:54] Ventilador apagado
+[2025-06-14 18:48:55] Ventilador encendido
+[2025-06-14 21:37:59] Ventilador encendido
+[2025-06-14 21:38:18] Ventilador apagado
+[2025-06-14 21:38:19] Ventilador encendido
+[2025-06-14 21:38:26] Ventilador apagado
+[2025-06-14 21:38:29] Ventilador encendido
+[2025-06-14 21:38:30] Ventilador apagado
+[2025-06-14 21:38:31] Ventilador encendido
+[2025-06-14 21:39:52] Ventilador encendido
+[2025-06-14 21:39:54] Ventilador apagado
+[2025-06-14 21:39:59] Ventilador encendido
+[2025-06-14 21:40:05] Ventilador apagado
+[2025-06-14 21:40:24] Ventilador encendido
+[2025-06-14 21:41:01] Ventilador apagado
+[2025-06-14 21:41:03] Ventilador encendido
+[2025-06-14 21:51:19] Ventilador encendido
+[2025-06-14 21:51:22] Ventilador apagado
+[2025-06-14 21:51:24] Ventilador encendido
+[2025-06-14 21:51:27] Ventilador apagado
+[2025-06-14 21:51:28] Ventilador encendido
+[2025-06-14 21:51:39] Ventilador apagado
+[2025-06-14 21:51:40] Ventilador encendido

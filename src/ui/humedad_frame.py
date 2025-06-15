@@ -25,7 +25,7 @@ class HumedadFrame(tk.Frame):
         self.lbl_actual = tk.Label(self, text="", font=("Segoe UI", 14), bg="#FFFFFF")
         self.lbl_actual.pack(pady=10)
 
-        tk.Button(self, text="Leer del Arduino", bg="#7AC35D", fg="white",
+        tk.Button(self, text="Actualizar", bg="#7AC35D", fg="white",
                   font=("Segoe UI", 10), width=15,
                   command=self.leer_humedad_desde_arduino).pack(pady=5)
 

@@ -40,8 +40,7 @@ def registrar_usuario(usuario,
 
 def verificar_credenciales(usuario, contrasena):
     """
-    Verifica usuario y contraseña. Devuelve un diccionario con los datos básicos si coincide,
-    o None en caso contrario.
+    Verifica usuario y contraseña. Devuelve un diccionario con los datos completos si coincide.
     """
     if not os.path.exists(RUTA_USUARIOS):
         return None
@@ -49,12 +48,20 @@ def verificar_credenciales(usuario, contrasena):
     with open(RUTA_USUARIOS, "r", encoding="utf-8") as f:
         for linea in f:
             partes = linea.strip().split(",")
-            # la nueva línea debe tener al menos 7 partes
-            if len(partes) >= 4:
-                usr, pwd, nombre, rol = partes[:4]
-                if usuario == usr and contrasena == pwd:
-                    return {"usuario": usr, "nombre": nombre, "rol": rol}
+            if len(partes) == 7:
+                numero_serie, pwd, nombre, rol, fecha_compra, direccion, telefono = partes
+                if usuario == numero_serie and contrasena == pwd:
+                    return {
+                        "numero_serie": numero_serie,
+                        "password": pwd,
+                        "nombre": nombre,
+                        "rol": rol,
+                        "fecha_compra": fecha_compra,
+                        "direccion": direccion,
+                        "telefono": telefono
+                    }
     return None
+
 
 
 def cargar_usuarios():

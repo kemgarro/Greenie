@@ -62,7 +62,7 @@ class PanelCliente:
             "fotos": lambda master, volver: FotosFrame(master, volver, self.serial_manager),
             "actualizar": lambda master, volver: ActualizarFrame(master, volver, self.serial_manager),
             "riego": lambda master, volver: RiegoFrame(master, volver, self.serial_manager),
-            "perfil": lambda master, volver: PerfilFrame(master, volver),
+            "perfil": lambda master, volver: PerfilFrame(master, volver, self.usuario["numero_serie"]),
             "ventilacion": lambda master, volver: VentilacionFrame(master, volver, self.serial_manager),
         }
 

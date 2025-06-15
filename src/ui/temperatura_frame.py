@@ -23,7 +23,7 @@ class TemperaturaFrame(tk.Frame):
         self.lbl_actual = tk.Label(self, text="", font=("Segoe UI", 14), bg="#FFFFFF")
         self.lbl_actual.pack(pady=10)
 
-        tk.Button(self, text="Leer del Arduino", bg="#7AC35D", fg="white",
+        tk.Button(self, text="Actualizar", bg="#7AC35D", fg="white",
                   command=self.leer_temperatura_desde_arduino).pack(pady=5)
 
         self.canvas_frame = tk.Frame(self, bg="#FFFFFF")
