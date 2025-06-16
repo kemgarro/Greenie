@@ -25,9 +25,10 @@ class VentilacionFrame(tk.Frame):
         manual = tk.LabelFrame(self, text="Manual", bg="#FFFFFF", padx=10, pady=10)
         manual.pack(pady=10)
 
-        self.btn_toggle_ventilador = tk.Button(manual, text="Encender", bg="#7AC35D", fg="white",command=self.toggle_ventilador)
+        self.btn_toggle_ventilador = tk.Button(
+            manual, text="Encender", bg="#7AC35D", fg="white", command=self.toggle_ventilador
+        )
         self.btn_toggle_ventilador.pack(pady=5)
-
 
         ciclo = tk.LabelFrame(self, text="Ciclo Automático", bg="#FFFFFF", padx=10, pady=10)
         ciclo.pack(pady=10)
@@ -69,6 +70,30 @@ class VentilacionFrame(tk.Frame):
         tk.Button(self, text="Volver", bg="#7AC35D", fg="white",
                   command=self.volver_callback).pack(pady=10)
 
+    def toggle_ventilador(self):
+        self.estado_ventilador = not self.estado_ventilador
+        encender = self.estado_ventilador
+
+        try:
+            comando = "ACTIVAR:VENTILADOR" if encender else "DESACTIVAR:VENTILADOR"
+            self.serial_manager.enviar(comando)
+
+            texto = "Apagar" if encender else "Encender"
+            self.btn_toggle_ventilador.config(text=texto)
+
+            estado_txt = "encendido" if encender else "apagado"
+            self.registrar_evento(f"Ventilador {estado_txt}")
+
+            # ✅ Cancelar ciclo si se apaga manualmente
+            if not encender:
+                if self.timer_ciclo:
+                    self.timer_ciclo.cancel()
+                    self.timer_ciclo = None
+
+        except Exception as e:
+            print(f"[VentilacionFrame] Error al alternar ventilador: {e}")
+            self.estado_ventilador = not self.estado_ventilador  # Revertir si falla
+
     def controlar_ventilador(self, encender):
         try:
             comando = "ACTIVAR:VENTILADOR" if encender else "DESACTIVAR:VENTILADOR"
@@ -102,8 +127,6 @@ class VentilacionFrame(tk.Frame):
         except ValueError:
             messagebox.showerror("Error", "Valores inválidos para el ciclo")
 
-             
-
     def iniciar_ciclo_ventilador(self, horas, minutos):
         def ciclo():
             try:
@@ -132,11 +155,16 @@ class VentilacionFrame(tk.Frame):
         try:
             datetime.datetime.strptime(hora, "%H:%M")
             self.hora_programada = hora
-            self.verificar_hora_diaria()
             self.registrar_evento(f"Encendido diario programado a las {hora}")
             os.makedirs("data", exist_ok=True)
             with open("data/hora_ventilacion.txt", "w") as f:
                 f.write(hora)
+
+            # ✅ Iniciar chequeo automático de hora solo después de programar
+            if self.after_id_horario:
+                self.after_cancel(self.after_id_horario)
+            self.after_id_horario = self.after(10000, self.verificar_hora_diaria)
+
         except ValueError:
             messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
 
@@ -174,22 +202,3 @@ class VentilacionFrame(tk.Frame):
         os.makedirs("data", exist_ok=True)
         with open("data/historial_ventilacion.txt", "a", encoding="utf-8") as f:
             f.write(evento)
-        #messagebox.showinfo("Evento registrado", texto)
-
-    def toggle_ventilador(self):
-        self.estado_ventilador = not self.estado_ventilador
-        encender = self.estado_ventilador
-
-        try:
-            comando = "ACTIVAR:VENTILADOR" if encender else "DESACTIVAR:VENTILADOR"
-            self.serial_manager.enviar(comando)
-
-            texto = "Apagar" if encender else "Encender"
-            self.btn_toggle_ventilador.config(text=texto)
-
-            estado_txt = "encendido" if encender else "apagado"
-            self.registrar_evento(f"Ventilador {estado_txt}")
-        except Exception as e:
-            print(f"[VentilacionFrame] Error al alternar ventilador: {e}")
-            self.estado_ventilador = not self.estado_ventilador  # Revertir estado si falla
-

@@ -118,3 +118,4 @@ class HumedadFrame(tk.Frame):
         canvas = FigureCanvasTkAgg(fig, master=self.canvas_frame)
         canvas.draw()
         canvas.get_tk_widget().pack()
+        

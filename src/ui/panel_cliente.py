@@ -5,13 +5,13 @@ from PIL import Image, ImageTk
 
 from src.ui.temperatura_frame import TemperaturaFrame  
 from src.ui.humedad_frame import HumedadFrame
-from src.ui.ph_frame import PHFrame
 from src.ui.luz_frame import LuzFrame
 from src.ui.actualizar_frame import ActualizarFrame
 from src.ui.fotos_frame import FotosFrame
 from src.ui.perfil_frame import PerfilFrame
 from src.ui.riego_frame import RiegoFrame
 from src.ui.ventilacion_frame import VentilacionFrame
+from src.ui.soporte_frame import SoporteFrame  # ✅
 
 class IconLoader:
     def __init__(self, icon_dir="assets/icons", size=(24, 24)):
@@ -41,7 +41,7 @@ class PanelCliente:
 
         self.icon_loader = IconLoader()
         self.iconos = self.icon_loader.cargar_iconos([
-            "temperatura", "humedad", "ph",
+            "temperatura", "humedad",
             "luz", "ventilacion", "riego",
             "fotos", "actualizar", "perfil"
         ])
@@ -57,25 +57,22 @@ class PanelCliente:
         clases_especiales = {
             "temperatura": lambda master, volver: TemperaturaFrame(master, volver, self.serial_manager),
             "humedad": lambda master, volver: HumedadFrame(master, volver, self.serial_manager),
-            "ph": lambda master, volver: PHFrame(master, volver),
             "luz": lambda master, volver: LuzFrame(master, volver, self.serial_manager),
             "fotos": lambda master, volver: FotosFrame(master, volver, self.serial_manager),
             "actualizar": lambda master, volver: ActualizarFrame(master, volver, self.serial_manager),
             "riego": lambda master, volver: RiegoFrame(master, volver, self.serial_manager),
             "perfil": lambda master, volver: PerfilFrame(master, volver, self.usuario["numero_serie"]),
             "ventilacion": lambda master, volver: VentilacionFrame(master, volver, self.serial_manager),
+            "soporte": lambda master, volver: SoporteFrame(master, volver, self.usuario),  # ✅
         }
 
         secciones = [
             "luz", "ventilacion", "riego", "fotos", "actualizar", "perfil",
-            "temperatura", "humedad", "ph"
+            "temperatura", "humedad", "soporte"
         ]
 
         for s in secciones:
-            if s in clases_especiales:
-                self.frames[s] = clases_especiales[s](self.root, self.volver_a_principal)
-            else:
-                self.frames[s] = self.crear_seccion(s.capitalize())
+            self.frames[s] = clases_especiales[s](self.root, self.volver_a_principal)
 
         for frame in self.frames.values():
             frame.place(x=0, y=0, relwidth=1, relheight=1)
@@ -102,13 +99,11 @@ class PanelCliente:
         # Lecturas
         lecturas = [
             (" Temperatura: 24.5°C", "temperatura"),
-            (" Humedad: 70%", "humedad"),
-            (" pH: 8", "ph")
+            (" Humedad: 70%", "humedad")
         ]
         for texto, clave in lecturas:
             self.crear_boton_info(frame, texto, clave, clave)
 
-        # Botones de acción
         grid = tk.Frame(frame, bg="#F7F7F7")
         grid.pack(pady=20)
 
@@ -127,11 +122,20 @@ class PanelCliente:
                       bg="#7AC35D", fg="white",
                       command=lambda k=clave: self.mostrar_frame(k)).grid(row=i//3, column=i%3, padx=10, pady=10)
 
-        tk.Button(frame, text="Cerrar sesión",
-                  font=("Segoe UI", 12),
+        contenedor_inferior = tk.Frame(frame, bg="#F7F7F7")
+        contenedor_inferior.pack(side="bottom", fill="x", pady=10)
+
+        tk.Button(contenedor_inferior, text="Soporte",
+                  font=("Segoe UI", 11),
                   bg="#7AC35D", fg="white",
-                  width=30, height=2,
-                  command=self.cerrar_sesion).pack(pady=10)
+                  width=25, height=1,
+                  command=lambda: self.mostrar_frame("soporte")).pack(pady=(0, 15))
+
+        tk.Button(contenedor_inferior, text="Cerrar sesión",
+                  font=("Segoe UI", 11),
+                  bg="#7AC35D", fg="white",
+                  width=25, height=1,
+                  command=self.cerrar_sesion).pack(pady=(0, 30))
 
         return frame
 

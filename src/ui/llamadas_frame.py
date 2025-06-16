@@ -1,71 +1,58 @@
-
 import tkinter as tk
-from tkinter import ttk, messagebox
-from datetime import datetime
 import os
-
-LLAMADAS_FILE = "data/llamadas.txt"
-SEGUIMIENTO_FILE = "data/seguimiento.txt"
+from src.ui.atencion_frame import AtencionFrame
 
 class LlamadasFrame(tk.Frame):
-    def __init__(self, master, volver_callback):
-        super().__init__(master, bg="#FFFFFF")
+    def __init__(self, parent, volver_callback):
+        super().__init__(parent, bg="#FFFFFF")
         self.volver_callback = volver_callback
-        self.crear_interfaz()
-        self.cargar_llamadas()
+        self.llamadas = []
+        self.crear_ui()
 
-    def crear_interfaz(self):
+    def crear_ui(self):
         header = tk.Frame(self, bg="#096B35", height=60)
         header.pack(fill="x")
-        tk.Label(header, text="Llamadas de Soporte", font=("Segoe UI", 16, "bold"),
+        tk.Label(header, text="Llamadas de Servicio", font=("Segoe UI", 16, "bold"),
                  fg="white", bg="#096B35").pack(pady=15)
 
-        self.tabla = ttk.Treeview(self, columns=("Fecha", "Serie", "Motivo"), show="headings", height=8)
-        for col in self.tabla["columns"]:
-            self.tabla.heading(col, text=col)
-            self.tabla.column(col, width=120, anchor="center")
-        self.tabla.pack(pady=10)
+        self.lista = tk.Listbox(self, width=60, height=18, font=("Segoe UI", 10))
+        self.lista.pack(pady=10)
 
-        ttk.Button(self, text="Atender Llamada", command=self.atender_llamada).pack(pady=10)
+        botones = tk.Frame(self, bg="#FFFFFF")
+        botones.pack()
+
+        tk.Button(botones, text="Actualizar", bg="#7AC35D", fg="white",
+                  font=("Segoe UI", 10), command=self.cargar_llamadas).grid(row=0, column=0, padx=10)
+
+        tk.Button(botones, text="Atender llamada", bg="#7AC35D", fg="white",
+                  font=("Segoe UI", 10), command=self.abrir_atencion).grid(row=0, column=1, padx=10)
 
         tk.Button(self, text="Volver", bg="#7AC35D", fg="white",
-                  font=("Segoe UI", 10), width=12,
-                  command=self.volver_callback).pack(pady=10)
+                  font=("Segoe UI", 10), command=self.volver_callback).pack(pady=10)
+
+        self.cargar_llamadas()
 
     def cargar_llamadas(self):
-        self.tabla.delete(*self.tabla.get_children())
-        if not os.path.exists(LLAMADAS_FILE):
-            return
-        with open(LLAMADAS_FILE, "r", encoding="utf-8") as file:
-            for linea in file:
-                partes = linea.strip().split(",")
-                if len(partes) == 3:
-                    self.tabla.insert("", "end", values=partes)
+        self.lista.delete(0, tk.END)
+        self.llamadas.clear()
+        ruta = "data/llamadas_servicio.txt"
+        if os.path.exists(ruta):
+            with open(ruta, "r", encoding="utf-8") as f:
+                for linea in f:
+                    partes = linea.strip().split("|")
+                    if len(partes) == 5:
+                        self.llamadas.append(partes)
+                        fecha, nombre, serie, telefono, mensaje = partes
+                        resumen = f"[{fecha}] {nombre} - Serie: {serie}"
+                        self.lista.insert(tk.END, resumen)
+        else:
+            self.lista.insert(tk.END, "No hay llamadas registradas aún.")
 
-    def atender_llamada(self):
-        seleccion = self.tabla.selection()
-        if not seleccion:
-            messagebox.showwarning("Atención", "Seleccione una llamada para atender.")
-            return
-
-        datos = self.tabla.item(seleccion[0])["values"]
-        fecha, serie, motivo = datos
-        comentario = tk.simpledialog.askstring("Seguimiento", f"Comentario para la llamada de {serie}:")
-        if not comentario:
-            return
-
-        fecha_seg = datetime.now().strftime("%Y-%m-%d %H:%M")
-        with open(SEGUIMIENTO_FILE, "a", encoding="utf-8") as f:
-            f.write(f"{fecha_seg},{serie},{motivo},{comentario}\n")
-
-        self.tabla.delete(seleccion[0])
-
-        llamadas_restantes = []
-        with open(LLAMADAS_FILE, "r", encoding="utf-8") as f:
-            for linea in f:
-                if not linea.startswith(fecha):
-                    llamadas_restantes.append(linea)
-        with open(LLAMADAS_FILE, "w", encoding="utf-8") as f:
-            f.writelines(llamadas_restantes)
-
-        messagebox.showinfo("Llamada atendida", f"Seguimiento guardado para {serie}.")
+    def abrir_atencion(self):
+        seleccion = self.lista.curselection()
+        if seleccion:
+            datos_llamada = self.llamadas[seleccion[0]]
+            nueva_ventana = tk.Toplevel(self)
+            AtencionFrame(nueva_ventana, datos_llamada)
+        else:
+            tk.messagebox.showwarning("Atención", "Por favor seleccione una llamada.")

@@ -1,6 +1,6 @@
 import os
 
-# Ruta al archivo de usuarios (se crea si no existe)
+# Ruta al archivo de usuarios
 RUTA_USUARIOS = os.path.join("data", "users.txt")
 
 
@@ -12,24 +12,21 @@ def registrar_usuario(usuario,
                        direccion,
                        telefono):
     """
-    Registra un nuevo usuario con los campos adicionales:
-    fecha_compra, direccion y telefono.
-    Devuelve False si el usuario ya existe, True en caso contrario.
+    Registra un nuevo usuario. Devuelve False si ya existe.
     """
-    # Asegurar existencia del archivo
     os.makedirs(os.path.dirname(RUTA_USUARIOS), exist_ok=True)
     if not os.path.exists(RUTA_USUARIOS):
         with open(RUTA_USUARIOS, "w", encoding="utf-8"):
             pass
 
-    # Verificar duplicado
+    usuario = str(usuario).strip()
+
     with open(RUTA_USUARIOS, "r", encoding="utf-8") as f:
         for linea in f:
-            existente = linea.strip().split(",")[0]
+            existente = linea.strip().split(",")[0].strip()
             if usuario == existente:
                 return False
 
-    # Escribir nueva línea con todos los campos
     with open(RUTA_USUARIOS, "a", encoding="utf-8") as f:
         f.write(
             f"{usuario},{contrasena},{nombre_completo},{rol},"
@@ -40,16 +37,19 @@ def registrar_usuario(usuario,
 
 def verificar_credenciales(usuario, contrasena):
     """
-    Verifica usuario y contraseña. Devuelve un diccionario con los datos completos si coincide.
+    Verifica usuario y contraseña. Retorna los datos si coincide.
     """
     if not os.path.exists(RUTA_USUARIOS):
         return None
+
+    usuario = str(usuario).strip()
+    contrasena = str(contrasena).strip()
 
     with open(RUTA_USUARIOS, "r", encoding="utf-8") as f:
         for linea in f:
             partes = linea.strip().split(",")
             if len(partes) == 7:
-                numero_serie, pwd, nombre, rol, fecha_compra, direccion, telefono = partes
+                numero_serie, pwd, nombre, rol, fecha_compra, direccion, telefono = [p.strip() for p in partes]
                 if usuario == numero_serie and contrasena == pwd:
                     return {
                         "numero_serie": numero_serie,
@@ -63,20 +63,17 @@ def verificar_credenciales(usuario, contrasena):
     return None
 
 
-
 def cargar_usuarios():
     """
-    Devuelve lista de diccionarios con todos los usuarios,
-    incluyendo fecha_compra, direccion y telefono.
+    Carga todos los usuarios registrados como una lista de diccionarios.
     """
     usuarios = []
     try:
         with open(RUTA_USUARIOS, "r", encoding="utf-8") as file:
             for linea in file:
                 partes = linea.strip().split(",")
-                # Esperamos exactamente 7 campos
                 if len(partes) == 7:
-                    usuario, contrasena, nombre, rol, fecha_compra, direccion, telefono = partes
+                    usuario, contrasena, nombre, rol, fecha_compra, direccion, telefono = [p.strip() for p in partes]
                     usuarios.append({
                         "usuario": usuario,
                         "contrasena": contrasena,
@@ -93,12 +90,22 @@ def cargar_usuarios():
 
 def eliminar_usuario(numero_serie):
     """
-    Elimina el usuario con el número de serie indicado.
-    Devuelve True si se eliminó algún registro, False si no se encontró.
+    Elimina un usuario por su número de serie. Devuelve True si fue eliminado.
     """
+    numero_serie = str(numero_serie).strip()  # ✅ Conversión segura
     usuarios = cargar_usuarios()
-    nuevos = [u for u in usuarios if u["usuario"] != numero_serie]
-    if len(nuevos) == len(usuarios):
+
+    nuevos = []
+    eliminado = False
+    for u in usuarios:
+        if u["usuario"].strip() != numero_serie:
+            nuevos.append(u)
+        else:
+            eliminado = True
+            print(f"[INFO] Usuario eliminado: {u['usuario']}")
+
+    if not eliminado:
+        print(f"[WARN] Usuario '{numero_serie}' no encontrado.")
         return False
 
     try:
@@ -108,6 +115,8 @@ def eliminar_usuario(numero_serie):
                     f"{u['usuario']},{u['contrasena']},{u['nombre']},{u['rol']},"
                     f"{u['fecha_compra']},{u['direccion']},{u['telefono']}\n"
                 )
+        print(f"[SUCCESS] Usuario '{numero_serie}' eliminado correctamente.")
         return True
-    except Exception:
+    except Exception as e:
+        print(f"[ERROR] No se pudo escribir el archivo: {e}")
         return False
