@@ -12,6 +12,7 @@ class RiegoFrame(tk.Frame):
         self.timer_ciclo = None
         self.estado_riego = False
         self._riego_after_id = None
+        self.after_id_horario = None
 
         self.crear_interfaz()
 
@@ -42,6 +43,7 @@ class RiegoFrame(tk.Frame):
         self.hora_fija.grid(row=0, column=1)
         tk.Button(horario, text="Programar horario", bg="#7AC35D", fg="white", command=self.programar_horario).grid(row=1, column=0, columnspan=2, pady=5)
 
+        tk.Button(self, text="Detener ciclos", bg="red", fg="white", command=self.detener_ciclos).pack(pady=5)
         tk.Button(self, text="Ver historial", bg="#7AC35D", fg="white", command=self.ver_historial).pack(pady=5)
         tk.Button(self, text="Volver", bg="#7AC35D", fg="white", font=("Segoe UI", 10), width=20, command=self.volver_callback).pack(pady=20)
 
@@ -99,18 +101,12 @@ class RiegoFrame(tk.Frame):
     def iniciar_ciclo_riego(self, horas, minutos):
         def ciclo():
             if not self.estado_riego:
-                try:
-                    self.encender_riego()
-                    self.registrar_evento("Riego encendido automáticamente (ciclo)")
-                except:
-                    pass
+                self.encender_riego()
+                self.registrar_evento("Riego encendido automáticamente (ciclo)")
 
             def apagar():
-                try:
-                    self.apagar_riego()
-                    self.registrar_evento("Riego apagado automáticamente (ciclo)")
-                except:
-                    pass
+                self.apagar_riego()
+                self.registrar_evento("Riego apagado automáticamente (ciclo)")
                 espera_restante = max(0, horas * 3600 - minutos * 60)
                 self.timer_ciclo = threading.Timer(espera_restante, ciclo)
                 self.timer_ciclo.start()
@@ -125,17 +121,59 @@ class RiegoFrame(tk.Frame):
         try:
             datetime.datetime.strptime(hora, "%H:%M")
             self.registrar_evento(f"Encendido diario programado a las {hora}")
+            with open("data/hora_riego.txt", "w") as f:
+                f.write(hora)
+            if self.after_id_horario:
+                self.after_cancel(self.after_id_horario)
+            self.after_id_horario = self.after(10000, self.verificar_horario)
         except ValueError:
             messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
 
+    def verificar_horario(self):
+        try:
+            with open("data/hora_riego.txt", "r") as f:
+                hora_programada = f.read().strip()
+            ahora = datetime.datetime.now().strftime("%H:%M")
+            if ahora == hora_programada:
+                self.encender_riego()
+                self.registrar_evento("Riego encendido automáticamente por horario")
+                self.after_id_horario = self.after(61000, self.verificar_horario)
+                return
+        except:
+            pass
+        self.after_id_horario = self.after(10000, self.verificar_horario)
+
+    def detener_ciclos(self):
+        if self.timer_ciclo:
+            self.timer_ciclo.cancel()
+            self.timer_ciclo = None
+        if self.after_id_horario:
+            self.after_cancel(self.after_id_horario)
+            self.after_id_horario = None
+        self.registrar_evento("Todos los ciclos y encendidos programados fueron detenidos")
+
     def ver_historial(self):
+        top = tk.Toplevel(self)
+        top.title("Historial de Riego")
+        top.geometry("400x300")
+        top.configure(bg="#FFFFFF")
+
+        frame = tk.Frame(top, bg="#FFFFFF")
+        frame.pack(fill="both", expand=True)
+
+        scrollbar = tk.Scrollbar(frame)
+        scrollbar.pack(side="right", fill="y")
+
+        text = tk.Text(frame, wrap="word", yscrollcommand=scrollbar.set, bg="#FFFFFF", font=("Segoe UI", 10))
+        text.pack(side="left", fill="both", expand=True)
+        scrollbar.config(command=text.yview)
+
         ruta = "data/historial_riego.txt"
         if os.path.exists(ruta):
             with open(ruta, "r", encoding="utf-8") as f:
-                contenido = f.read()
-            messagebox.showinfo("Historial de Riego", contenido or "No hay eventos registrados aún.")
+                text.insert("1.0", f.read())
         else:
-            messagebox.showinfo("Historial de Riego", "No hay historial disponible.")
+            text.insert("1.0", "No hay historial disponible.")
 
     def registrar_evento(self, texto):
         now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

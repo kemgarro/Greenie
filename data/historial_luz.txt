@@ -1336,3 +1336,5 @@
 [2025-06-17 22:35:36] Techo cerrado manualmente.
 [2025-06-17 22:47:12] Techo abierto manualmente.
 [2025-06-17 22:47:15] Techo cerrado manualmente.
+[2025-06-18 13:46:11] Techo abierto manualmente.
+[2025-06-18 13:46:15] Techo cerrado manualmente.
