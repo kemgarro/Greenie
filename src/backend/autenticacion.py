@@ -12,21 +12,29 @@ def registrar_usuario(usuario,
                        direccion,
                        telefono):
     """
-    Registra un nuevo usuario. Devuelve False si ya existe.
+    Registra un nuevo usuario. 
+    Si es admin, se usa el nombre como usuario. 
+    Si es cliente, se usa el número de serie como usuario.
     """
     os.makedirs(os.path.dirname(RUTA_USUARIOS), exist_ok=True)
     if not os.path.exists(RUTA_USUARIOS):
         with open(RUTA_USUARIOS, "w", encoding="utf-8"):
             pass
 
-    usuario = str(usuario).strip()
+    # Elegir qué campo se registra como "usuario"
+    if rol == "admin":
+        usuario = nombre_completo.strip()
+    else:
+        usuario = str(usuario).strip()
 
+    # Verificar duplicado
     with open(RUTA_USUARIOS, "r", encoding="utf-8") as f:
         for linea in f:
             existente = linea.strip().split(",")[0].strip()
             if usuario == existente:
                 return False
 
+    # Registrar al usuario
     with open(RUTA_USUARIOS, "a", encoding="utf-8") as f:
         f.write(
             f"{usuario},{contrasena},{nombre_completo},{rol},"
@@ -90,9 +98,9 @@ def cargar_usuarios():
 
 def eliminar_usuario(numero_serie):
     """
-    Elimina un usuario por su número de serie. Devuelve True si fue eliminado.
+    Elimina un usuario por su identificador registrado. Devuelve True si fue eliminado.
     """
-    numero_serie = str(numero_serie).strip()  # ✅ Conversión segura
+    numero_serie = str(numero_serie).strip()
     usuarios = cargar_usuarios()
 
     nuevos = []
@@ -112,7 +120,7 @@ def eliminar_usuario(numero_serie):
         with open(RUTA_USUARIOS, "w", encoding="utf-8") as file:
             for u in nuevos:
                 file.write(
-                    f"{u['usuario']},{u['contrasena']},{u['nombre']},{u['rol']},"
+                    f"{u['usuario']},{u['contrasena']},{u['nombre']},{u['rol']}," +
                     f"{u['fecha_compra']},{u['direccion']},{u['telefono']}\n"
                 )
         print(f"[SUCCESS] Usuario '{numero_serie}' eliminado correctamente.")

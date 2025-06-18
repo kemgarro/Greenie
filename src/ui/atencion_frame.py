@@ -7,7 +7,7 @@ class AtencionFrame:
     def __init__(self, root, datos_llamada):
         self.root = root
         self.root.title("Atención de Llamada")
-        self.root.geometry("400x500")
+        self.root.geometry("400x550")
         self.root.configure(bg="#FFFFFF")
         self.datos = datos_llamada
         self.serie = datos_llamada[2]
@@ -32,14 +32,16 @@ class AtencionFrame:
             "Se contactó al cliente",
             "Se mandó dispositivo a taller",
             "Se envió dispositivo reparado a cliente",
-            "Se dio instrucciones a cliente para solucionara el problema",
-            "Se solucionó problema"
+            "Se dio instrucciones a cliente para que solucionara el problema",
+            "Se solucionó el problema"
         ]
 
         for accion in acciones:
             tk.Button(self.root, text=accion,
                       font=("Segoe UI", 10), bg="#7AC35D", fg="white",
-                      width=40, command=lambda a=accion: self.registrar_accion(a)).pack(pady=5)
+                      width=40, height=2,
+                      wraplength=280, justify="center",
+                      command=lambda a=accion: self.registrar_accion(a)).pack(pady=5)
 
         tk.Button(self.root, text="Cerrar", font=("Segoe UI", 10),
                   bg="#DDDDDD", width=20, command=self.root.destroy).pack(pady=20)

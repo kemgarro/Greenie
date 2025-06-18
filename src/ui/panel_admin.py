@@ -2,16 +2,16 @@ import tkinter as tk
 import os
 import subprocess
 import sys
+from PIL import Image, ImageTk
 from src.ui.usuarios_frame import UsuariosFrame
 from src.ui.llamadas_frame import LlamadasFrame
 from src.ui.seguimiento_frame import SeguimientoFrame
-from src.ui.historial_frame import HistorialFrame
 
 class PanelAdmin:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Greenie - Panel Administrador")
-        self.root.geometry("400x600")
+        self.root.geometry("420x620")
         self.root.resizable(False, False)
         self.root.configure(bg="#F7F7F7")
 
@@ -27,15 +27,10 @@ class PanelAdmin:
             "usuarios": UsuariosFrame,
             "llamadas": LlamadasFrame,
             "seguimiento": SeguimientoFrame,
-            "historial": HistorialFrame,
         }
 
-        secciones = ["usuarios", "llamadas", "seguimiento", "historial"]
-        for s in secciones:
-            if s in clases_especiales:
-                self.frames[s] = clases_especiales[s](self.root, self.volver_a_principal)
-            else:
-                self.frames[s] = self.crear_seccion(s.capitalize())
+        for clave, clase in clases_especiales.items():
+            self.frames[clave] = clase(self.root, self.volver_a_principal)
 
         for frame in self.frames.values():
             frame.place(x=0, y=0, relwidth=1, relheight=1)
@@ -46,43 +41,52 @@ class PanelAdmin:
     def crear_principal(self):
         frame = tk.Frame(self.root, bg="#F7F7F7")
 
-        header = tk.Frame(frame, bg="#096B35", height=60)
+        # Header con título y logo
+        header = tk.Frame(frame, bg="#096B35", height=80)
         header.pack(fill="x")
-        tk.Label(header, text="Greenie - Admin", font=("Segoe UI", 18, "bold"),
-                 fg="white", bg="#096B35").pack(pady=10)
+        header.pack_propagate(False)
+
+        # Contenedor del título y logo
+        titulo_logo_frame = tk.Frame(header, bg="#096B35")
+        titulo_logo_frame.pack(fill="both", expand=True, padx=10)
+
+        # Título a la izquierda
+        tk.Label(titulo_logo_frame, text="Panel Administrador", font=("Segoe UI", 18, "bold"),
+                 fg="white", bg="#096B35").pack(side="left", anchor="w")
+
+        # Logo a la derecha
+        logo_path = os.path.join("assets", "logos", "logo.png")
+        if os.path.exists(logo_path):
+            img = Image.open(logo_path).resize((60, 50))
+            self.logo_img = ImageTk.PhotoImage(img)
+            tk.Label(titulo_logo_frame, image=self.logo_img, bg="#096B35").pack(side="right")
+
+        # Botones principales
+        botones_frame = tk.Frame(frame, bg="#F7F7F7")
+        botones_frame.pack(expand=True, pady=40)
 
         acciones = [
-            ("Usuarios", "usuarios"),
-            ("Llamadas", "llamadas"),
-            ("Seguimiento", "seguimiento"),
-            ("Historial", "historial")
+            ("Gestión de Usuarios", "usuarios"),
+            ("Llamadas de Servicio", "llamadas"),
+            ("Seguimiento de Atención", "seguimiento"),
         ]
 
         for texto, clave in acciones:
-            tk.Button(frame, text=texto,
+            tk.Button(botones_frame, text=texto,
                       font=("Segoe UI", 12),
                       bg="#7AC35D", fg="white",
                       width=30, height=2,
-                      command=lambda k=clave: self.mostrar_frame(k)).pack(pady=10)
+                      relief="flat",
+                      command=lambda k=clave: self.mostrar_frame(k)).pack(pady=12)
 
+        # Botón cerrar sesión
         tk.Button(frame, text="Cerrar sesión",
                   font=("Segoe UI", 12),
-                  bg="#7AC35D", fg="white",
+                  bg="#D9534F", fg="white",
                   width=30, height=2,
-                  command=self.cerrar_sesion).pack(pady=10)
+                  relief="flat",
+                  command=self.cerrar_sesion).pack(pady=20)
 
-        return frame
-
-    def crear_seccion(self, titulo):
-        frame = tk.Frame(self.root, bg="#FFFFFF")
-        header = tk.Frame(frame, bg="#096B35", height=60)
-        header.pack(fill="x")
-        tk.Label(header, text=titulo, font=("Segoe UI", 16, "bold"),
-                 fg="white", bg="#096B35").pack(pady=15)
-
-        tk.Button(frame, text="Volver", bg="#7AC35D", fg="white",
-                  font=("Segoe UI", 10), width=12,
-                  command=lambda: self.mostrar_frame("principal")).pack(pady=20)
         return frame
 
     def volver_a_principal(self):

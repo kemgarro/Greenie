@@ -1,2 +1,3 @@
 2025-06-01,Usuario admin creó un nuevo cliente
 2025-06-03,Llamada atendida para dispositivo 1234567890
+2025-06-16 16:59:38 - Usuario admin creó administrador Diego Mora
