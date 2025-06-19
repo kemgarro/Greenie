@@ -25,22 +25,16 @@ class LuzFrame(tk.Frame):
         self.crear_seccion_luz()
         self.crear_seccion_techo()
 
-        tk.Button(self, text="Ver Historial", bg="#7AC35D", fg="white", command=self.ver_historial).pack(pady=10)
-        tk.Button(self, text="Volver", bg="#7AC35D", fg="white", command=self.volver_callback).pack(pady=5)
+        tk.Button(self, text="Detener ciclos", bg="#C34F4F", fg="white", command=self.detener_todos_los_ciclos).pack(pady=5)
+        tk.Button(self, text="Ver Historial", bg="#7AC35D", fg="white", command=self.ver_historial).pack(pady=5)
+        tk.Button(self, text="Volver", bg="#7AC35D", fg="white", command=self.volver_callback).pack(pady=10)
 
     def crear_seccion_luz(self):
         luz_frame = tk.LabelFrame(self, text="Luz Artificial", bg="#FFFFFF", padx=10, pady=10)
         luz_frame.pack(pady=10, fill="x", padx=10)
 
-        #self.btn_luz = tk.Button(luz_frame, text="Encender Luz", bg="#7AC35D", fg="white", command=lambda: self.controlar_luz(True))
-        #self.btn_luz.pack(pady=5)
-
-        #self.btn_luz_apagar = tk.Button(luz_frame, text="Apagar Luz", bg="#7AC35D", fg="white", command=lambda: self.controlar_luz(False))
-        #self.btn_luz_apagar.pack(pady=5)
-
         self.btn_toggle_luz = tk.Button(luz_frame, text="Encender Luz", bg="#7AC35D", fg="white", command=self.toggle_luz)
         self.btn_toggle_luz.pack(pady=5)
-
 
         self.crear_ciclo_luz(luz_frame)
         self.crear_hora_fija_luz(luz_frame)
@@ -60,9 +54,12 @@ class LuzFrame(tk.Frame):
         hora_fija = tk.LabelFrame(parent, text="Encendido Diario", bg="#FFFFFF", padx=5, pady=5)
         hora_fija.pack(pady=5)
         self.hora_fija_luz = tk.Entry(hora_fija, width=7)
+        self.duracion_luz = tk.Entry(hora_fija, width=5)
         tk.Label(hora_fija, text="Hora (HH:MM):", bg="#FFFFFF").grid(row=0, column=0)
         self.hora_fija_luz.grid(row=0, column=1)
-        tk.Button(hora_fija, text="Programar", command=self.programar_hora_luz).grid(row=0, column=2, padx=5)
+        tk.Label(hora_fija, text="Por (min):", bg="#FFFFFF").grid(row=0, column=2)
+        self.duracion_luz.grid(row=0, column=3)
+        tk.Button(hora_fija, text="Programar", command=self.programar_hora_luz).grid(row=0, column=4, padx=5)
 
     def crear_seccion_techo(self):
         techo_frame = tk.LabelFrame(self, text="Techo", bg="#FFFFFF", padx=10, pady=10)
@@ -89,43 +86,28 @@ class LuzFrame(tk.Frame):
         hora_fija = tk.LabelFrame(parent, text="Apertura Diaria", bg="#FFFFFF", padx=5, pady=5)
         hora_fija.pack(pady=5)
         self.hora_fija_techo = tk.Entry(hora_fija, width=7)
+        self.duracion_techo = tk.Entry(hora_fija, width=5)
         tk.Label(hora_fija, text="Hora (HH:MM):", bg="#FFFFFF").grid(row=0, column=0)
         self.hora_fija_techo.grid(row=0, column=1)
-        tk.Button(hora_fija, text="Programar", command=self.programar_hora_techo).grid(row=0, column=2, padx=5)
-
-    def controlar_luz(self, encender):
-        try:
-            comando = "ACTIVAR:LEDS" if encender else "DESACTIVAR:LEDS"
-            self.serial_manager.enviar(comando)
-            estado = "encendida" if encender else "apagada"
-            self.registrar_evento(f"Luz {estado} manualmente.")
-        except Exception as e:
-            messagebox.showerror("Error", f"No se pudo controlar la luz: {e}")
+        tk.Label(hora_fija, text="Por (min):", bg="#FFFFFF").grid(row=0, column=2)
+        self.duracion_techo.grid(row=0, column=3)
+        tk.Button(hora_fija, text="Programar", command=self.programar_hora_techo).grid(row=0, column=4, padx=5)
 
     def toggle_techo(self):
         self.estado_techo = not self.estado_techo
-        estado = "abierto" if self.estado_techo else "cerrado"
-        if self.winfo_exists():
-            self.btn_techo.config(text="Cerrar Techo" if self.estado_techo else "Abrir Techo")
         comando = "SERVO:180" if self.estado_techo else "SERVO:0"
+        texto = "Cerrar Techo" if self.estado_techo else "Abrir Techo"
+        self.btn_techo.config(text=texto)
         self.serial_manager.enviar(comando)
-        self.registrar_evento(f"Techo {estado} manualmente.")
+        self.registrar_evento(f"Techo {'abierto' if self.estado_techo else 'cerrado'} manualmente.")
 
     def toggle_luz(self):
         self.estado_luz = not self.estado_luz
-        estado = "encendida" if self.estado_luz else "apagada"
-
-        try:
-            comando = "ACTIVAR:LEDS" if self.estado_luz else "DESACTIVAR:LEDS"
-            self.serial_manager.enviar(comando)
-            self.btn_toggle_luz.config(
-                text="Apagar Luz" if self.estado_luz else "Encender Luz"
-            )
-            self.registrar_evento(f"Luz {estado} manualmente.")
-        except Exception as e:
-            print(f"[LuzFrame] Error al cambiar estado de la luz: {e}")
-            self.estado_luz = not self.estado_luz  # Revertir estado en caso de fallo
-
+        comando = "ACTIVAR:LEDS" if self.estado_luz else "DESACTIVAR:LEDS"
+        texto = "Apagar Luz" if self.estado_luz else "Encender Luz"
+        self.btn_toggle_luz.config(text=texto)
+        self.serial_manager.enviar(comando)
+        self.registrar_evento(f"Luz {'encendida' if self.estado_luz else 'apagada'} manualmente.")
 
     def aplicar_ciclo_luz(self):
         try:
@@ -136,9 +118,26 @@ class LuzFrame(tk.Frame):
             if self.timer_ciclo_luz:
                 self.timer_ciclo_luz.cancel()
             self.registrar_evento(f"Ciclo luz programado: cada {h}h por {m}min.")
-            self.iniciar_ciclo_luz(horas=h, minutos=m)
+            self.iniciar_ciclo_luz(h, m)
         except ValueError:
-            messagebox.showerror("Error", "Valores inválidos. Usa números positivos y asegúrate de que minutos < horas*60.")
+            messagebox.showerror("Error", "Valores inválidos. Usa decimales positivos y minutos < horas*60.")
+
+    def iniciar_ciclo_luz(self, horas, minutos):
+        def ciclo():
+            self.toggle_luz()
+            self.registrar_evento("Encendido automático de luz (ciclo)")
+
+            def apagar():
+                self.toggle_luz()
+                self.registrar_evento("Apagado automático de luz (ciclo)")
+                espera_restante = max(0, horas * 3600 - minutos * 60)
+                self.timer_ciclo_luz = threading.Timer(espera_restante, ciclo)
+                self.timer_ciclo_luz.start()
+
+            self.timer_ciclo_luz = threading.Timer(minutos * 60, apagar)
+            self.timer_ciclo_luz.start()
+
+        ciclo()
 
     def aplicar_ciclo_techo(self):
         try:
@@ -149,80 +148,19 @@ class LuzFrame(tk.Frame):
             if self.timer_ciclo_techo:
                 self.timer_ciclo_techo.cancel()
             self.registrar_evento(f"Ciclo techo programado: cada {h}h por {m}min.")
-            self.iniciar_ciclo_techo(horas=h, minutos=m)
+            self.iniciar_ciclo_techo(h, m)
         except ValueError:
-            messagebox.showerror("Error", "Valores inválidos. Usa números positivos y asegúrate de que minutos < horas*60.")
-
-    def programar_hora_luz(self):
-        hora = self.hora_fija_luz.get().strip()
-        try:
-            datetime.datetime.strptime(hora, "%H:%M")
-            self.registrar_evento(f"Encendido luz diario programado a las {hora}")
-            with open("data/hora_luz.txt", "w") as f:
-                f.write(hora)
-            self.verificar_hora_luz()
-            messagebox.showinfo("Programado", f"Luz programada para las {hora} diariamente.")
-        except ValueError:
-            messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
-
-    def programar_hora_techo(self):
-        hora = self.hora_fija_techo.get().strip()
-        try:
-            datetime.datetime.strptime(hora, "%H:%M")
-            self.registrar_evento(f"Apertura techo diaria programada a las {hora}")
-            with open("data/hora_techo.txt", "w") as f:
-                f.write(hora)
-            self.verificar_hora_techo()
-            messagebox.showinfo("Programado", f"Apertura del techo programada para las {hora} diariamente.")
-        except ValueError:
-            messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
-
-    def iniciar_ciclo_luz(self, horas, minutos):
-        def ciclo():
-            try:
-                self.controlar_luz(True)
-                self.registrar_evento("Encendido automático de luz (ciclo)")
-            except:
-                pass
-
-            def apagar():
-                try:
-                    self.controlar_luz(False)
-                    self.registrar_evento("Apagado automático de luz (ciclo)")
-                except:
-                    pass
-                total_segundos = horas * 3600
-                espera_restante = max(0, total_segundos - minutos * 60)
-                self.timer_ciclo_luz = threading.Timer(espera_restante, ciclo)
-                self.timer_ciclo_luz.start()
-
-            self.timer_ciclo_luz = threading.Timer(minutos * 60, apagar)
-            self.timer_ciclo_luz.start()
-
-        ciclo()
+            messagebox.showerror("Error", "Valores inválidos. Usa decimales positivos y minutos < horas*60.")
 
     def iniciar_ciclo_techo(self, horas, minutos):
         def ciclo():
-            try:
-                self.estado_techo = True
-                if self.winfo_exists():
-                    self.btn_techo.config(text="Cerrar Techo")
-                self.serial_manager.enviar("SERVO:180")
-                self.registrar_evento("Techo abierto automáticamente (ciclo)")
-            except:
-                pass
+            self.toggle_techo()
+            self.registrar_evento("Techo abierto automáticamente (ciclo)")
 
             def cerrar():
-                try:
-                    self.estado_techo = False
-                    if self.winfo_exists():
-                        self.btn_techo.config(text="Abrir Techo")
-                    self.serial_manager.enviar("SERVO:0")
-                    self.registrar_evento("Techo cerrado automáticamente (ciclo)")
-                except:
-                    pass
-                total_segundos = horas * 3600
-                espera_restante = max(0, total_segundos - minutos * 60)
+                self.toggle_techo()
+                self.registrar_evento("Techo cerrado automáticamente (ciclo)")
+                espera_restante = max(0, horas * 3600 - minutos * 60)
                 self.timer_ciclo_techo = threading.Timer(espera_restante, ciclo)
                 self.timer_ciclo_techo.start()
 
@@ -231,44 +169,86 @@ class LuzFrame(tk.Frame):
 
         ciclo()
 
+    def programar_hora_luz(self):
+        try:
+            hora = self.hora_fija_luz.get().strip()
+            duracion = float(self.duracion_luz.get())
+            datetime.datetime.strptime(hora, "%H:%M")
+            if duracion <= 0:
+                raise ValueError
+            with open("data/hora_luz.txt", "w") as f:
+                f.write(f"{hora}|{duracion}")
+            self.verificar_hora_luz()
+            self.registrar_evento(f"Encendido luz diario programado a las {hora} por {duracion} minutos.")
+        except ValueError:
+            messagebox.showerror("Error", "Formato incorrecto o duración inválida.")
+
     def verificar_hora_luz(self):
         try:
             with open("data/hora_luz.txt", "r") as f:
-                hora_programada = f.read().strip()
+                contenido = f.read().strip()
+            hora, duracion = contenido.split("|")
             ahora = datetime.datetime.now().strftime("%H:%M")
-            if ahora == hora_programada:
-                self.controlar_luz(True)
-                self.registrar_evento("Luz encendida automáticamente por hora programada")
-                self.after_id_luz = self.after(61000, self.verificar_hora_luz)
-                return
+            if ahora == hora:
+                self.toggle_luz()
+                self.registrar_evento("Luz encendida automáticamente (diario)")
+                threading.Timer(float(duracion) * 60, lambda: [self.toggle_luz(), self.registrar_evento("Luz apagada automáticamente (diario)")]).start()
+            self.after_id_luz = self.after(60000, self.verificar_hora_luz)
         except:
             pass
-        self.after_id_luz = self.after(10000, self.verificar_hora_luz)
+
+    def programar_hora_techo(self):
+        try:
+            hora = self.hora_fija_techo.get().strip()
+            duracion = float(self.duracion_techo.get())
+            datetime.datetime.strptime(hora, "%H:%M")
+            if duracion <= 0:
+                raise ValueError
+            with open("data/hora_techo.txt", "w") as f:
+                f.write(f"{hora}|{duracion}")
+            self.verificar_hora_techo()
+            self.registrar_evento(f"Apertura techo diaria programada a las {hora} por {duracion} minutos.")
+        except ValueError:
+            messagebox.showerror("Error", "Formato incorrecto o duración inválida.")
 
     def verificar_hora_techo(self):
         try:
             with open("data/hora_techo.txt", "r") as f:
-                hora_programada = f.read().strip()
+                contenido = f.read().strip()
+            hora, duracion = contenido.split("|")
             ahora = datetime.datetime.now().strftime("%H:%M")
-            if ahora == hora_programada and not self.estado_techo:
-                self.estado_techo = True
-                if self.winfo_exists():
-                    self.btn_techo.config(text="Cerrar Techo")
-                self.serial_manager.enviar("SERVO:180")
-                self.registrar_evento("Techo abierto automáticamente por hora programada")
-                self.after_id_techo = self.after(61000, self.verificar_hora_techo)
-                return
+            if ahora == hora:
+                self.toggle_techo()
+                self.registrar_evento("Techo abierto automáticamente (diario)")
+                threading.Timer(float(duracion) * 60, lambda: [self.toggle_techo(), self.registrar_evento("Techo cerrado automáticamente (diario)")]).start()
+            self.after_id_techo = self.after(60000, self.verificar_hora_techo)
         except:
             pass
-        self.after_id_techo = self.after(10000, self.verificar_hora_techo)
+
+    def detener_todos_los_ciclos(self):
+        if self.timer_ciclo_luz:
+            self.timer_ciclo_luz.cancel()
+        if self.timer_ciclo_techo:
+            self.timer_ciclo_techo.cancel()
+        if self.after_id_luz:
+            self.after_cancel(self.after_id_luz)
+        if self.after_id_techo:
+            self.after_cancel(self.after_id_techo)
+        self.registrar_evento("Todos los ciclos y horarios detenidos.")
 
     def ver_historial(self):
         top = tk.Toplevel(self)
-        top.title("Historial de eventos")
-        top.geometry("350x300")
+        top.title("Historial de Luz")
+        top.geometry("400x300")
         top.configure(bg="#FFFFFF")
-        text = tk.Text(top, wrap="word", bg="#FFFFFF", font=("Segoe UI", 10))
+
+        scrollbar = tk.Scrollbar(top)
+        scrollbar.pack(side="right", fill="y")
+
+        text = tk.Text(top, wrap="word", bg="#FFFFFF", font=("Segoe UI", 10), yscrollcommand=scrollbar.set)
         text.pack(fill="both", expand=True)
+        scrollbar.config(command=text.yview)
+
         if os.path.exists("data/historial_luz.txt"):
             with open("data/historial_luz.txt", "r") as f:
                 text.insert("1.0", f.read())
@@ -276,8 +256,6 @@ class LuzFrame(tk.Frame):
             text.insert("1.0", "No hay historial disponible.")
 
     def registrar_evento(self, texto):
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        linea = f"[{timestamp}] {texto}\n"
-        os.makedirs("data", exist_ok=True)
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with open("data/historial_luz.txt", "a") as f:
-            f.write(linea)
+            f.write(f"[{now}] {texto}\n")
