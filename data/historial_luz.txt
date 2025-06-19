@@ -1401,3 +1401,94 @@
 [2025-06-18 19:13:04] Techo abierto automáticamente (ciclo)
 [2025-06-18 19:14:04] Techo cerrado manualmente.
 [2025-06-18 19:14:04] Techo cerrado automáticamente (ciclo)
+[2025-06-18 21:27:23] Techo abierto manualmente.
+[2025-06-18 21:27:26] Techo cerrado manualmente.
+[2025-06-18 21:36:30] Ciclo techo cada 2.0min por 1.0min.
+[2025-06-18 21:36:30] Techo abierto manualmente.
+[2025-06-18 21:37:30] Techo cerrado manualmente.
+[2025-06-18 21:37:30] Techo abierto manualmente.
+[2025-06-18 21:38:30] Techo cerrado manualmente.
+[2025-06-18 21:38:30] Techo abierto manualmente.
+[2025-06-18 21:38:51] Techo cerrado manualmente.
+[2025-06-18 21:38:56] Techo abierto manualmente.
+[2025-06-18 21:38:59] Ciclo techo cada 2.0min por 1.0min.
+[2025-06-18 21:38:59] Techo cerrado manualmente.
+[2025-06-18 21:39:30] Techo abierto manualmente.
+[2025-06-18 21:39:30] Techo cerrado manualmente.
+[2025-06-18 21:39:59] Techo abierto manualmente.
+[2025-06-18 21:39:59] Techo cerrado manualmente.
+[2025-06-18 21:46:28] Techo abierto manualmente.
+[2025-06-18 21:46:29] Techo cerrado manualmente.
+[2025-06-18 21:46:33] Ciclo techo: cada 2.0 min por 1.0 min.
+[2025-06-18 21:46:33] Techo abierto manualmente.
+[2025-06-18 21:46:33] Techo abierto automáticamente (ciclo)
+[2025-06-18 21:47:33] Techo cerrado manualmente.
+[2025-06-18 21:47:33] Techo cerrado automáticamente (ciclo)
+[2025-06-18 21:48:33] Techo abierto manualmente.
+[2025-06-18 21:48:33] Techo abierto automáticamente (ciclo)
+[2025-06-18 21:48:42] Ciclo y horario de techo detenidos.
+[2025-06-18 21:52:03] Techo cerrado manualmente.
+[2025-06-18 21:52:03] Techo abierto automáticamente (diario)
+[2025-06-18 21:52:03] Techo programado a las 21:52 por 3.0 min.
+[2025-06-18 21:52:07] Ciclo y horario de techo detenidos.
+[2025-06-18 21:52:12] Techo programado a las 21:54 por 3.0 min.
+[2025-06-18 21:54:12] Techo abierto manualmente.
+[2025-06-18 21:54:12] Techo abierto automáticamente (diario)
+[2025-06-18 21:55:03] Techo cerrado manualmente.
+[2025-06-18 21:55:03] Techo cerrado automáticamente (diario)
+[2025-06-18 21:55:14] Ciclo y horario de techo detenidos.
+[2025-06-18 21:55:32] Techo programado a las 21:56 por 1.0 min.
+[2025-06-18 21:55:44] Techo programado a las 21:56 por 3.0 min.
+[2025-06-18 21:56:32] Techo abierto manualmente.
+[2025-06-18 21:56:32] Techo abierto automáticamente (diario)
+[2025-06-18 21:56:44] Techo cerrado manualmente.
+[2025-06-18 21:56:44] Techo abierto automáticamente (diario)
+[2025-06-18 22:11:44] Apertura techo diaria programada a las 22:12 por 3.0 minutos.
+[2025-06-18 22:12:44] Techo abierto manualmente.
+[2025-06-18 22:12:44] Techo abierto automáticamente (hora fija)
+[2025-06-18 22:15:44] Techo cerrado manualmente.
+[2025-06-18 22:15:44] Techo cerrado automáticamente (hora fija)
+[2025-06-18 22:16:07] Techo abierto manualmente.
+[2025-06-18 22:16:07] Techo abierto automáticamente (ciclo)
+[2025-06-18 22:16:07] Ciclo techo: cada 2.0 min por 1.0 min.
+[2025-06-18 22:17:07] Techo cerrado manualmente.
+[2025-06-18 22:17:07] Techo cerrado automáticamente (ciclo)
+[2025-06-18 22:17:14] Ciclos de techo detenidos.
+[2025-06-18 22:18:07] Luz encendida manualmente.
+[2025-06-18 22:18:07] Luz encendida automáticamente (hora fija)
+[2025-06-18 22:18:07] Encendido luz diario programado a las 22:18 por 1.0 minutos.
+[2025-06-18 22:18:34] Luz apagada manualmente.
+[2025-06-18 22:18:35] Luz encendida manualmente.
+[2025-06-18 22:19:07] Luz apagada manualmente.
+[2025-06-18 22:19:07] Luz apagada automáticamente (hora fija)
+[2025-06-18 22:19:14] Encendido luz diario programado a las 22:20 por 1.0 minutos.
+[2025-06-18 22:20:07] Luz encendida manualmente.
+[2025-06-18 22:20:07] Luz encendida automáticamente (hora fija)
+[2025-06-18 22:20:14] Luz apagada manualmente.
+[2025-06-18 22:20:14] Luz encendida automáticamente (hora fija)
+[2025-06-18 22:23:31] Luz encendida manualmente.
+[2025-06-18 22:23:33] Luz apagada manualmente.
+[2025-06-18 22:23:44] Encendido luz diario programado a las 22:24 por 3.0 minutos.
+[2025-06-18 22:24:44] Luz encendida manualmente.
+[2025-06-18 22:24:44] Luz encendida automáticamente (hora fija)
+[2025-06-18 22:27:44] Luz apagada manualmente.
+[2025-06-18 22:27:44] Luz apagada automáticamente (hora fija)
+[2025-06-18 22:28:12] Ciclos de luz detenidos.
+[2025-06-18 22:28:40] Luz encendida manualmente.
+[2025-06-18 22:28:40] Luz encendida automáticamente (ciclo)
+[2025-06-18 22:28:40] Ciclo luz: cada 2.0 min por 1.0 min.
+[2025-06-18 22:29:40] Luz apagada manualmente.
+[2025-06-18 22:29:40] Luz apagada automáticamente (ciclo)
+[2025-06-18 22:30:40] Luz encendida manualmente.
+[2025-06-18 22:30:40] Luz encendida automáticamente (ciclo)
+[2025-06-18 22:31:19] Ciclos de luz detenidos.
+[2025-06-18 22:31:25] Ciclos de luz detenidos.
+[2025-06-18 22:34:19] Luz apagada manualmente.
+[2025-06-18 22:44:34] Techo abierto manualmente.
+[2025-06-18 22:44:36] Techo cerrado manualmente.
+[2025-06-18 23:58:55] Luz encendida manualmente.
+[2025-06-18 23:58:56] Luz apagada manualmente.
+[2025-06-19 00:01:52] Luz encendida manualmente.
+[2025-06-19 00:01:52] Luz apagada manualmente.
+[2025-06-19 00:05:12] Luz encendida manualmente.
+[2025-06-19 00:05:12] Luz apagada manualmente.

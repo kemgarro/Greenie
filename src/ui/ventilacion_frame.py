@@ -13,6 +13,7 @@ class VentilacionFrame(tk.Frame):
         self.timer_ciclo = None
         self.after_id_horario = None
         self.hora_programada = None
+        self.duracion_programada = None
 
         self.crear_interfaz()
 
@@ -33,13 +34,13 @@ class VentilacionFrame(tk.Frame):
         ciclo = tk.LabelFrame(self, text="Ciclo Automático", bg="#FFFFFF", padx=10, pady=10)
         ciclo.pack(pady=10)
 
-        tk.Label(ciclo, text="Cada (h):", bg="#FFFFFF").grid(row=0, column=0)
-        self.ciclo_horas = tk.Entry(ciclo, width=5)
-        self.ciclo_horas.grid(row=0, column=1, padx=5)
+        tk.Label(ciclo, text="Cada (min):", bg="#FFFFFF").grid(row=0, column=0)
+        self.ciclo_min_intervalo = tk.Entry(ciclo, width=5)
+        self.ciclo_min_intervalo.grid(row=0, column=1, padx=5)
 
         tk.Label(ciclo, text="Por (min):", bg="#FFFFFF").grid(row=0, column=2)
-        self.ciclo_minutos = tk.Entry(ciclo, width=5)
-        self.ciclo_minutos.grid(row=0, column=3, padx=5)
+        self.ciclo_min_duracion = tk.Entry(ciclo, width=5)
+        self.ciclo_min_duracion.grid(row=0, column=3, padx=5)
 
         tk.Button(ciclo, text="Programar ciclo", bg="#7AC35D", fg="white",
                   command=self.programar_ciclo).grid(row=1, column=0, columnspan=4, pady=5)
@@ -51,18 +52,15 @@ class VentilacionFrame(tk.Frame):
         self.hora_fija = tk.Entry(horario, width=7)
         self.hora_fija.grid(row=0, column=1)
 
+        tk.Label(horario, text="Por (min):", bg="#FFFFFF").grid(row=1, column=0)
+        self.duracion_fija = tk.Entry(horario, width=5)
+        self.duracion_fija.grid(row=1, column=1)
+
         tk.Button(horario, text="Programar horario", bg="#7AC35D", fg="white",
-                  command=self.programar_horario).grid(row=1, column=0, columnspan=2, pady=5)
+                  command=self.programar_horario).grid(row=2, column=0, columnspan=2, pady=5)
 
-        auto = tk.LabelFrame(self, text="Encendido Automático", bg="#FFFFFF", padx=10, pady=10)
-        auto.pack(pady=10)
-
-        tk.Label(auto, text="Umbral (°C):", bg="#FFFFFF").grid(row=0, column=0)
-        self.umbral_temp = tk.Entry(auto, width=7)
-        self.umbral_temp.grid(row=0, column=1)
-
-        tk.Button(auto, text="Establecer umbral", bg="#7AC35D", fg="white",
-                  command=self.establecer_umbral).grid(row=1, column=0, columnspan=2, pady=5)
+        tk.Button(self, text="Detener ciclos", bg="red", fg="white",
+                  command=self.detener_ciclos).pack(pady=5)
 
         tk.Button(self, text="Ver historial", bg="#7AC35D", fg="white",
                   command=self.ver_historial).pack(pady=5)
@@ -84,7 +82,6 @@ class VentilacionFrame(tk.Frame):
             estado_txt = "encendido" if encender else "apagado"
             self.registrar_evento(f"Ventilador {estado_txt}")
 
-            # ✅ Cancelar ciclo si se apaga manualmente
             if not encender:
                 if self.timer_ciclo:
                     self.timer_ciclo.cancel()
@@ -92,7 +89,7 @@ class VentilacionFrame(tk.Frame):
 
         except Exception as e:
             print(f"[VentilacionFrame] Error al alternar ventilador: {e}")
-            self.estado_ventilador = not self.estado_ventilador  # Revertir si falla
+            self.estado_ventilador = not self.estado_ventilador
 
     def controlar_ventilador(self, encender):
         try:
@@ -103,31 +100,20 @@ class VentilacionFrame(tk.Frame):
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo controlar el ventilador: {e}")
 
-    def establecer_umbral(self):
-        try:
-            umbral = float(self.umbral_temp.get())
-            self.registrar_evento(f"Ventilación se activará si la temperatura supera {umbral}°C")
-            os.makedirs("data", exist_ok=True)
-            with open("data/umbral_ventilacion.txt", "w") as f:
-                f.write(str(umbral))
-            self.serial_manager.enviar(f"UMBRAL:TEMP:{umbral}")
-        except ValueError:
-            messagebox.showerror("Error", "El valor debe ser un número.")
-
     def programar_ciclo(self):
         try:
-            h = float(self.ciclo_horas.get())
-            m = float(self.ciclo_minutos.get())
-            if h <= 0 or m <= 0 or m >= h * 60:
+            intervalo = float(self.ciclo_min_intervalo.get())
+            duracion = float(self.ciclo_min_duracion.get())
+            if intervalo <= 0 or duracion <= 0 or duracion >= intervalo:
                 raise ValueError
             if self.timer_ciclo:
                 self.timer_ciclo.cancel()
-            self.registrar_evento(f"Ventilación programada cada {h}h por {m}min")
-            self.iniciar_ciclo_ventilador(h, m)
-        except ValueError:
+            self.registrar_evento(f"Ciclo ventilador cada {intervalo}min por {duracion}min")
+            self.iniciar_ciclo(intervalo, duracion)
+        except:
             messagebox.showerror("Error", "Valores inválidos para el ciclo")
 
-    def iniciar_ciclo_ventilador(self, horas, minutos):
+    def iniciar_ciclo(self, intervalo, duracion):
         def ciclo():
             try:
                 self.controlar_ventilador(True)
@@ -141,11 +127,11 @@ class VentilacionFrame(tk.Frame):
                     self.registrar_evento("Ventilador apagado (ciclo)")
                 except:
                     pass
-                espera_restante = max(0, horas * 3600 - minutos * 60)
-                self.timer_ciclo = threading.Timer(espera_restante, ciclo)
+                espera = max(0, intervalo * 60 - duracion * 60)
+                self.timer_ciclo = threading.Timer(espera, ciclo)
                 self.timer_ciclo.start()
 
-            self.timer_ciclo = threading.Timer(minutos * 60, apagar)
+            self.timer_ciclo = threading.Timer(duracion * 60, apagar)
             self.timer_ciclo.start()
 
         ciclo()
@@ -153,32 +139,39 @@ class VentilacionFrame(tk.Frame):
     def programar_horario(self):
         hora = self.hora_fija.get().strip()
         try:
+            duracion = float(self.duracion_fija.get())
             datetime.datetime.strptime(hora, "%H:%M")
             self.hora_programada = hora
-            self.registrar_evento(f"Encendido diario programado a las {hora}")
-            os.makedirs("data", exist_ok=True)
-            with open("data/hora_ventilacion.txt", "w") as f:
-                f.write(hora)
-
-            # ✅ Iniciar chequeo automático de hora solo después de programar
+            self.duracion_programada = duracion
+            self.registrar_evento(f"Ventilación programada a las {hora} por {duracion} minutos")
             if self.after_id_horario:
                 self.after_cancel(self.after_id_horario)
-            self.after_id_horario = self.after(10000, self.verificar_hora_diaria)
-
-        except ValueError:
-            messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
+            self.verificar_hora_diaria()
+        except:
+            messagebox.showerror("Error", "Formato de hora incorrecto o duración inválida.")
 
     def verificar_hora_diaria(self):
         try:
             ahora = datetime.datetime.now().strftime("%H:%M")
             if ahora == self.hora_programada:
                 self.controlar_ventilador(True)
-                self.registrar_evento("Ventilador encendido automáticamente por horario")
-                self.after_id_horario = self.after(61000, self.verificar_hora_diaria)
-                return
-        except:
-            pass
-        self.after_id_horario = self.after(10000, self.verificar_hora_diaria)
+                self.registrar_evento("Ventilador encendido automáticamente (hora fija)")
+                def apagar():
+                    self.controlar_ventilador(False)
+                    self.registrar_evento("Ventilador apagado automáticamente (hora fija)")
+                threading.Timer(float(self.duracion_programada) * 60, apagar).start()
+        except Exception as e:
+            print(f"Error verificación horario: {e}")
+        self.after_id_horario = self.after(60000, self.verificar_hora_diaria)
+
+    def detener_ciclos(self):
+        if self.timer_ciclo:
+            self.timer_ciclo.cancel()
+            self.timer_ciclo = None
+        if self.after_id_horario:
+            self.after_cancel(self.after_id_horario)
+            self.after_id_horario = None
+        self.registrar_evento("Todos los ciclos y horarios de ventilación detenidos")
 
     def ver_historial(self):
         top = tk.Toplevel(self)
@@ -186,8 +179,16 @@ class VentilacionFrame(tk.Frame):
         top.geometry("400x300")
         top.configure(bg="#FFFFFF")
 
-        text = tk.Text(top, wrap="word", bg="#FFFFFF", font=("Segoe UI", 10))
-        text.pack(fill="both", expand=True)
+        frame = tk.Frame(top, bg="#FFFFFF")
+        frame.pack(fill="both", expand=True)
+
+        scrollbar = tk.Scrollbar(frame)
+        scrollbar.pack(side="right", fill="y")
+
+        text = tk.Text(frame, wrap="word", yscrollcommand=scrollbar.set,
+                       bg="#FFFFFF", font=("Segoe UI", 10))
+        text.pack(side="left", fill="both", expand=True)
+        scrollbar.config(command=text.yview)
 
         path = "data/historial_ventilacion.txt"
         if os.path.exists(path):

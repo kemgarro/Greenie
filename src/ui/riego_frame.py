@@ -13,6 +13,8 @@ class RiegoFrame(tk.Frame):
         self.estado_riego = False
         self._riego_after_id = None
         self.after_id_horario = None
+        self.hora_programada = None
+        self.duracion_programada = None
 
         self.crear_interfaz()
 
@@ -28,12 +30,12 @@ class RiegoFrame(tk.Frame):
 
         ciclo = tk.LabelFrame(self, text="Ciclo Automático", bg="#FFFFFF", padx=10, pady=10)
         ciclo.pack(pady=10)
-        tk.Label(ciclo, text="Cada (h):", bg="#FFFFFF").grid(row=0, column=0)
-        self.ciclo_horas = tk.Entry(ciclo, width=5)
-        self.ciclo_horas.grid(row=0, column=1, padx=5)
+        tk.Label(ciclo, text="Cada (min):", bg="#FFFFFF").grid(row=0, column=0)
+        self.ciclo_min_intervalo = tk.Entry(ciclo, width=5)
+        self.ciclo_min_intervalo.grid(row=0, column=1, padx=5)
         tk.Label(ciclo, text="Por (min):", bg="#FFFFFF").grid(row=0, column=2)
-        self.ciclo_minutos = tk.Entry(ciclo, width=5)
-        self.ciclo_minutos.grid(row=0, column=3, padx=5)
+        self.ciclo_min_duracion = tk.Entry(ciclo, width=5)
+        self.ciclo_min_duracion.grid(row=0, column=3, padx=5)
         tk.Button(ciclo, text="Programar ciclo", bg="#7AC35D", fg="white", command=self.programar_ciclo).grid(row=1, column=0, columnspan=4, pady=5)
 
         horario = tk.LabelFrame(self, text="Encendido Diario", bg="#FFFFFF", padx=10, pady=10)
@@ -41,7 +43,10 @@ class RiegoFrame(tk.Frame):
         tk.Label(horario, text="Hora (HH:MM):", bg="#FFFFFF").grid(row=0, column=0)
         self.hora_fija = tk.Entry(horario, width=7)
         self.hora_fija.grid(row=0, column=1)
-        tk.Button(horario, text="Programar horario", bg="#7AC35D", fg="white", command=self.programar_horario).grid(row=1, column=0, columnspan=2, pady=5)
+        tk.Label(horario, text="Por (min):", bg="#FFFFFF").grid(row=1, column=0)
+        self.duracion_fija = tk.Entry(horario, width=5)
+        self.duracion_fija.grid(row=1, column=1)
+        tk.Button(horario, text="Programar horario", bg="#7AC35D", fg="white", command=self.programar_horario).grid(row=2, column=0, columnspan=2, pady=5)
 
         tk.Button(self, text="Detener ciclos", bg="red", fg="white", command=self.detener_ciclos).pack(pady=5)
         tk.Button(self, text="Ver historial", bg="#7AC35D", fg="white", command=self.ver_historial).pack(pady=5)
@@ -60,10 +65,6 @@ class RiegoFrame(tk.Frame):
                 self.registrar_evento("Riego encendido")
                 self.estado_riego = True
                 self.btn_toggle_riego.config(text="Apagar")
-
-                if self._riego_after_id:
-                    self.after_cancel(self._riego_after_id)
-                self._riego_after_id = self.after(10000, self.apagar_riego)
         except Exception as e:
             print(f"Error al encender riego: {e}")
 
@@ -74,11 +75,6 @@ class RiegoFrame(tk.Frame):
                 self.registrar_evento("Riego apagado")
                 self.estado_riego = False
                 self.btn_toggle_riego.config(text="Encender")
-
-                if self._riego_after_id:
-                    self.after_cancel(self._riego_after_id)
-                    self._riego_after_id = None
-
                 if self.timer_ciclo:
                     self.timer_ciclo.cancel()
                     self.timer_ciclo = None
@@ -87,31 +83,36 @@ class RiegoFrame(tk.Frame):
 
     def programar_ciclo(self):
         try:
-            h = float(self.ciclo_horas.get())
-            m = float(self.ciclo_minutos.get())
-            if h <= 0 or m <= 0 or m >= h * 60:
+            intervalo = float(self.ciclo_min_intervalo.get())
+            duracion = float(self.ciclo_min_duracion.get())
+            if intervalo <= 0 or duracion <= 0 or duracion >= intervalo:
                 raise ValueError
             if self.timer_ciclo:
                 self.timer_ciclo.cancel()
-            self.registrar_evento(f"Ciclo de riego programado: cada {h}h por {m}min")
-            self.iniciar_ciclo_riego(h, m)
-        except ValueError:
-            messagebox.showerror("Error", "Valores inválidos. Usa números positivos y minutos < horas*60.")
+            self.registrar_evento(f"Ciclo riego cada {intervalo}min por {duracion}min")
+            self.iniciar_ciclo(intervalo, duracion)
+        except:
+            messagebox.showerror("Error", "Valores inválidos para el ciclo")
 
-    def iniciar_ciclo_riego(self, horas, minutos):
+    def iniciar_ciclo(self, intervalo, duracion):
         def ciclo():
-            if not self.estado_riego:
+            try:
                 self.encender_riego()
-                self.registrar_evento("Riego encendido automáticamente (ciclo)")
+                self.registrar_evento("Riego encendido (ciclo)")
+            except:
+                pass
 
             def apagar():
-                self.apagar_riego()
-                self.registrar_evento("Riego apagado automáticamente (ciclo)")
-                espera_restante = max(0, horas * 3600 - minutos * 60)
-                self.timer_ciclo = threading.Timer(espera_restante, ciclo)
+                try:
+                    self.apagar_riego()
+                    self.registrar_evento("Riego apagado (ciclo)")
+                except:
+                    pass
+                espera = max(0, intervalo * 60 - duracion * 60)
+                self.timer_ciclo = threading.Timer(espera, ciclo)
                 self.timer_ciclo.start()
 
-            self.timer_ciclo = threading.Timer(minutos * 60, apagar)
+            self.timer_ciclo = threading.Timer(duracion * 60, apagar)
             self.timer_ciclo.start()
 
         ciclo()
@@ -119,29 +120,30 @@ class RiegoFrame(tk.Frame):
     def programar_horario(self):
         hora = self.hora_fija.get().strip()
         try:
+            duracion = float(self.duracion_fija.get())
             datetime.datetime.strptime(hora, "%H:%M")
-            self.registrar_evento(f"Encendido diario programado a las {hora}")
-            with open("data/hora_riego.txt", "w") as f:
-                f.write(hora)
+            self.hora_programada = hora
+            self.duracion_programada = duracion
+            self.registrar_evento(f"Riego programado a las {hora} por {duracion} minutos")
             if self.after_id_horario:
                 self.after_cancel(self.after_id_horario)
-            self.after_id_horario = self.after(10000, self.verificar_horario)
-        except ValueError:
-            messagebox.showerror("Error", "Formato de hora incorrecto. Usa HH:MM")
-
-    def verificar_horario(self):
-        try:
-            with open("data/hora_riego.txt", "r") as f:
-                hora_programada = f.read().strip()
-            ahora = datetime.datetime.now().strftime("%H:%M")
-            if ahora == hora_programada:
-                self.encender_riego()
-                self.registrar_evento("Riego encendido automáticamente por horario")
-                self.after_id_horario = self.after(61000, self.verificar_horario)
-                return
+            self.verificar_hora_diaria()
         except:
-            pass
-        self.after_id_horario = self.after(10000, self.verificar_horario)
+            messagebox.showerror("Error", "Formato de hora incorrecto o duración inválida.")
+
+    def verificar_hora_diaria(self):
+        try:
+            ahora = datetime.datetime.now().strftime("%H:%M")
+            if ahora == self.hora_programada:
+                self.encender_riego()
+                self.registrar_evento("Riego encendido automáticamente (hora fija)")
+                def apagar():
+                    self.apagar_riego()
+                    self.registrar_evento("Riego apagado automáticamente (hora fija)")
+                threading.Timer(float(self.duracion_programada) * 60, apagar).start()
+        except Exception as e:
+            print(f"Error verificación horario: {e}")
+        self.after_id_horario = self.after(60000, self.verificar_hora_diaria)
 
     def detener_ciclos(self):
         if self.timer_ciclo:
@@ -150,7 +152,7 @@ class RiegoFrame(tk.Frame):
         if self.after_id_horario:
             self.after_cancel(self.after_id_horario)
             self.after_id_horario = None
-        self.registrar_evento("Todos los ciclos y encendidos programados fueron detenidos")
+        self.registrar_evento("Todos los ciclos y horarios de riego detenidos")
 
     def ver_historial(self):
         top = tk.Toplevel(self)
@@ -164,7 +166,8 @@ class RiegoFrame(tk.Frame):
         scrollbar = tk.Scrollbar(frame)
         scrollbar.pack(side="right", fill="y")
 
-        text = tk.Text(frame, wrap="word", yscrollcommand=scrollbar.set, bg="#FFFFFF", font=("Segoe UI", 10))
+        text = tk.Text(frame, wrap="word", yscrollcommand=scrollbar.set,
+                       bg="#FFFFFF", font=("Segoe UI", 10))
         text.pack(side="left", fill="both", expand=True)
         scrollbar.config(command=text.yview)
 

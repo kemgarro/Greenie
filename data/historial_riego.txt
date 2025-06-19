@@ -1037,3 +1037,57 @@
 [2025-06-18 17:23:38] Riego apagado
 [2025-06-18 17:23:38] Riego apagado automáticamente (ciclo)
 [2025-06-18 17:23:40] Todos los ciclos y encendidos programados fueron detenidos
+[2025-06-18 22:44:42] Riego encendido
+[2025-06-18 22:44:44] Riego apagado
+[2025-06-18 22:44:57] Ciclo riego cada 2.0min por 1.0min
+[2025-06-18 22:44:57] Riego encendido
+[2025-06-18 22:44:57] Riego encendido (ciclo)
+[2025-06-18 22:45:57] Riego apagado
+[2025-06-18 22:45:57] Riego apagado (ciclo)
+[2025-06-18 22:46:57] Riego encendido
+[2025-06-18 22:46:57] Riego encendido (ciclo)
+[2025-06-18 22:47:36] Todos los ciclos y horarios de riego detenidos
+[2025-06-18 22:47:37] Riego apagado
+[2025-06-18 22:47:38] Riego encendido
+[2025-06-18 22:47:39] Riego apagado
+[2025-06-18 22:47:43] Riego encendido
+[2025-06-18 22:47:44] Riego apagado
+[2025-06-18 22:47:45] Riego encendido
+[2025-06-18 22:47:46] Riego apagado
+[2025-06-18 22:47:49] Todos los ciclos y horarios de riego detenidos
+[2025-06-18 22:48:29] Ciclo riego cada 2.0min por 1.0min
+[2025-06-18 22:48:29] Riego encendido (ciclo)
+[2025-06-18 22:49:28] Ciclo riego cada 2.0min por 1.0min
+[2025-06-18 22:49:28] Riego encendido
+[2025-06-18 22:49:28] Riego encendido (ciclo)
+[2025-06-18 22:49:29] Riego apagado (ciclo)
+[2025-06-18 22:50:28] Riego apagado
+[2025-06-18 22:50:28] Riego apagado (ciclo)
+[2025-06-18 22:51:28] Riego encendido
+[2025-06-18 22:51:28] Riego encendido (ciclo)
+[2025-06-18 22:51:49] Riego apagado
+[2025-06-18 22:51:51] Todos los ciclos y horarios de riego detenidos
+[2025-06-18 22:51:53] Todos los ciclos y horarios de riego detenidos
+[2025-06-18 22:51:55] Riego encendido
+[2025-06-18 22:51:56] Riego apagado
+[2025-06-18 22:52:16] Riego programado a las 22:53 por 1.0 minutos
+[2025-06-18 22:53:16] Riego encendido
+[2025-06-18 22:53:16] Riego encendido automáticamente (hora fija)
+[2025-06-18 22:54:16] Riego apagado
+[2025-06-18 22:54:16] Riego apagado automáticamente (hora fija)
+[2025-06-18 22:54:37] Riego programado a las 22:55 por 1.0 minutos
+[2025-06-18 22:55:37] Riego encendido
+[2025-06-18 22:55:37] Riego encendido automáticamente (hora fija)
+[2025-06-18 22:56:37] Riego apagado
+[2025-06-18 22:56:37] Riego apagado automáticamente (hora fija)
+[2025-06-18 22:57:11] Riego programado a las 22:58 por 3.0 minutos
+[2025-06-18 22:58:11] Riego encendido
+[2025-06-18 22:58:11] Riego encendido automáticamente (hora fija)
+[2025-06-18 22:59:41] Riego programado a las 23:00 por 3.0 minutos
+[2025-06-18 23:00:41] Riego encendido
+[2025-06-18 23:00:41] Riego encendido automáticamente (hora fija)
+[2025-06-18 23:01:11] Riego apagado
+[2025-06-18 23:01:12] Riego apagado automáticamente (hora fija)
+[2025-06-18 23:03:41] Riego apagado
+[2025-06-18 23:03:41] Riego apagado automáticamente (hora fija)
+[2025-06-18 23:03:46] Todos los ciclos y horarios de riego detenidos
