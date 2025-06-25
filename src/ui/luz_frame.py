@@ -25,7 +25,6 @@ class LuzFrame(tk.Frame):
         self.crear_seccion_luz()
         self.crear_seccion_techo()
 
-        # Botones de detener ciclos separados
         tk.Button(self, text="Detener ciclos luz", bg="#C34F4F", fg="white", command=self.detener_ciclos_luz).pack(pady=5)
         tk.Button(self, text="Detener ciclos techo", bg="#C34F4F", fg="white", command=self.detener_ciclos_techo).pack(pady=5)
 
@@ -101,6 +100,11 @@ class LuzFrame(tk.Frame):
         self.btn_techo.config(text=texto)
         self.serial_manager.enviar(comando)
         self.registrar_evento(f"Techo {'abierto' if self.estado_techo else 'cerrado'} manualmente.")
+        try:
+            with open("data/estado_techo.txt", "w") as f:
+                f.write("abierto" if self.estado_techo else "cerrado")
+        except Exception as e:
+            print(f"[ERROR] No se pudo escribir estado_techo.txt: {e}")
 
     def aplicar_ciclo_luz(self):
         try:

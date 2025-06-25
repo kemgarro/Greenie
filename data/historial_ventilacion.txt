@@ -514,3 +514,19 @@
 [2025-06-18 22:41:24] Ventilador apagado
 [2025-06-18 22:41:24] Ventilador apagado automáticamente (hora fija)
 [2025-06-18 22:41:28] Todos los ciclos y horarios de ventilación detenidos
+[2025-06-24 13:29:09] Ventilador encendido
+[2025-06-24 13:29:12] Ventilador apagado
+[2025-06-24 13:29:47] Ventilador encendido
+[2025-06-24 13:29:50] Ventilador apagado
+[2025-06-24 13:31:07] Ciclo ventilador cada 1.0min por 0.5min
+[2025-06-24 13:31:07] Ventilador encendido
+[2025-06-24 13:31:07] Ventilador encendido (ciclo)
+[2025-06-24 13:31:37] Ventilador apagado
+[2025-06-24 13:31:37] Ventilador apagado (ciclo)
+[2025-06-24 13:32:07] Ventilador encendido
+[2025-06-24 13:32:07] Ventilador encendido (ciclo)
+[2025-06-24 13:32:37] Ventilador apagado
+[2025-06-24 13:32:37] Ventilador apagado (ciclo)
+[2025-06-24 13:32:40] Todos los ciclos y horarios de ventilación detenidos
+[2025-06-24 19:45:50] Ventilador encendido
+[2025-06-24 19:45:53] Ventilador apagado

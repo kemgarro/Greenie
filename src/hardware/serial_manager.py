@@ -6,16 +6,13 @@ class SerialManager:
         self.pines = pines or {}
         try:
             self.arduino = serial.Serial(puerto, baudrate, timeout=1)
-            time.sleep(2)  # Esperar que el Arduino se reinicie
+            time.sleep(2)
             print(f"[SerialManager] Conectado a {puerto}")
-
-            # 🛑 Apagar todo por defecto al iniciar
             time.sleep(1)
             self.enviar("DESACTIVAR:LEDS")
             self.enviar("DESACTIVAR:BOMBA")
             self.enviar("DESACTIVAR:VENTILADOR")
             self.mover_servo(0)
-
         except serial.SerialException as e:
             self.arduino = None
             print(f"[SerialManager] Error al abrir el puerto serial: {e}")
@@ -31,7 +28,6 @@ class SerialManager:
         else:
             print("[SerialManager] Arduino no conectado o puerto cerrado.")
 
-    # ✅ Alias para usar write() directamente
     write = enviar
 
     def activar(self, componente):
@@ -45,25 +41,32 @@ class SerialManager:
 
     def leer_dht(self):
         self.enviar("LEER:DHT")
-        return self.leer_linea()
+        return self.leer_linea(timeout=4)
 
     def leer_nivel_agua(self):
-        self.enviar("LEER:NIVEL")
-        return self.leer_linea()
+        self.enviar("CONSULTAR:NIVEL_AGUA")
+        return self.leer_linea(timeout=2)
 
-    def leer_linea(self):
+    def leer_linea(self, timeout=3):
         if self.arduino and self.arduino.is_open:
             try:
-                time.sleep(2)  # Tiempo suficiente para que Arduino responda
-                linea = self.arduino.readline().decode(errors="ignore").strip()
-                if linea:
-                    print(f"[SerialManager] Recibido: {linea}")
-                    return linea
-                else:
-                    print("[SerialManager] No se recibió ninguna línea.")
+                print("[SerialManager] Esperando respuesta del Arduino...")
+                inicio = time.time()
+                while time.time() - inicio < timeout:
+                    if self.arduino.in_waiting:
+                        linea = self.arduino.readline().decode(errors="ignore").strip()
+                        if linea:
+                            print(f"[SerialManager] Recibido: {linea}")
+                            return linea
+                print("[SerialManager] No se recibió ninguna línea en el tiempo esperado.")
             except serial.SerialException as e:
                 print(f"[SerialManager] Error al leer línea: {e}")
         return None
+
+    def flush(self):
+        if self.arduino and self.arduino.is_open:
+            self.arduino.reset_input_buffer()
+            print("[SerialManager] Buffer de entrada limpiado.")
 
     def cerrar(self):
         if self.arduino and self.arduino.is_open:

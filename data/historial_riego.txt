@@ -1091,3 +1091,11 @@
 [2025-06-18 23:03:41] Riego apagado
 [2025-06-18 23:03:41] Riego apagado automáticamente (hora fija)
 [2025-06-18 23:03:46] Todos los ciclos y horarios de riego detenidos
+[2025-06-24 13:29:00] Riego encendido
+[2025-06-24 13:29:04] Riego apagado
+[2025-06-24 19:39:40] Riego encendido
+[2025-06-24 19:39:42] Riego apagado
+[2025-06-24 19:45:42] Riego encendido
+[2025-06-24 19:45:44] Riego apagado
+[2025-06-24 21:05:03] Riego encendido
+[2025-06-24 21:05:04] Riego apagado
