@@ -1,3 +1,2 @@
 c,2589,Carlos Soto,cliente,2025-03-10,Barrio Escalante,85321234
 Luis Fernando Mejías Mejías,0212,Luis Fernando Mejías Mejías,admin,2025-06-16,,
-Diego Mora,1234,Diego Mora,admin,2025-06-16,,

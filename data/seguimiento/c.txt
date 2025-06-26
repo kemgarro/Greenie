@@ -5,3 +5,4 @@
 2025-06-16 22:11:21|c|Se mandó dispositivo a taller
 2025-06-18 00:29:28|c|Se dio instrucciones a cliente para que solucionara el problema
 2025-06-18 00:31:37|c|Se solucionó el problema
+2025-06-25 12:57:23|c|Se contactó al cliente

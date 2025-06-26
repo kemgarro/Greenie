@@ -64,7 +64,7 @@ class FotosFrame(tk.Frame):
                   command=self.volver_callback).pack(pady=30)
 
     def tomar_foto(self):
-        cap = cv2.VideoCapture(2)  # Índice 2 (Iriun o dispositivo externo)
+        cap = cv2.VideoCapture(0)  # Índice 2 (Iriun o dispositivo externo)
         time.sleep(1)
         ret, frame = cap.read()
         cap.release()

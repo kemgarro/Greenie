@@ -1,3 +1,4 @@
 2025-06-15 17:27:55|Carlos Soto|c|85321234|El dispositivo no enciende.
 2025-06-16 22:13:20|Sebastián Mora|cd2524|86535133|El dispositivo no responde a los comandos de la aplicación
 2025-06-18 00:30:48|Carlos Soto|c|85321234|no puedo tomar fotos
+2025-06-25 12:51:12|Carlos Soto|c|85321234|El dispositivo a veces no funciona

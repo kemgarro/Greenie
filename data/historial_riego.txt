@@ -1099,3 +1099,109 @@
 [2025-06-24 19:45:44] Riego apagado
 [2025-06-24 21:05:03] Riego encendido
 [2025-06-24 21:05:04] Riego apagado
+[2025-06-25 09:13:28] Riego encendido
+[2025-06-25 09:13:45] Riego apagado
+[2025-06-25 09:13:47] Riego encendido
+[2025-06-25 09:13:56] Riego apagado
+[2025-06-25 09:14:07] Riego encendido
+[2025-06-25 09:14:12] Riego apagado
+[2025-06-25 09:14:56] Riego encendido
+[2025-06-25 09:14:58] Riego apagado
+[2025-06-25 09:15:07] Riego encendido
+[2025-06-25 09:15:08] Riego apagado
+[2025-06-25 09:15:11] Riego encendido
+[2025-06-25 09:15:12] Riego apagado
+[2025-06-25 09:16:03] Ciclo riego cada 1.0min por 0.5min
+[2025-06-25 09:16:03] Riego encendido
+[2025-06-25 09:16:03] Riego encendido (ciclo)
+[2025-06-25 09:16:33] Riego apagado
+[2025-06-25 09:16:33] Riego apagado (ciclo)
+[2025-06-25 09:17:03] Riego encendido
+[2025-06-25 09:17:04] Riego encendido (ciclo)
+[2025-06-25 09:17:42] Ciclo riego cada 1.0min por 0.5min
+[2025-06-25 09:17:42] Riego encendido
+[2025-06-25 09:17:42] Riego encendido (ciclo)
+[2025-06-25 09:18:12] Riego apagado
+[2025-06-25 09:18:12] Riego apagado (ciclo)
+[2025-06-25 09:18:42] Riego encendido
+[2025-06-25 09:18:42] Riego encendido (ciclo)
+[2025-06-25 09:19:12] Riego apagado
+[2025-06-25 09:19:12] Riego apagado (ciclo)
+[2025-06-25 09:19:42] Riego encendido
+[2025-06-25 09:19:42] Riego encendido (ciclo)
+[2025-06-25 09:20:12] Riego apagado
+[2025-06-25 09:20:12] Riego apagado (ciclo)
+[2025-06-25 09:20:42] Riego encendido
+[2025-06-25 09:20:42] Riego encendido (ciclo)
+[2025-06-25 09:21:12] Riego apagado
+[2025-06-25 09:21:14] Riego apagado (ciclo)
+[2025-06-25 09:21:56] Ciclo riego cada 1.0min por 0.5min
+[2025-06-25 09:21:56] Riego encendido
+[2025-06-25 09:21:56] Riego encendido (ciclo)
+[2025-06-25 09:22:26] Riego apagado
+[2025-06-25 09:22:26] Riego apagado (ciclo)
+[2025-06-25 09:22:46] Riego encendido
+[2025-06-25 09:22:47] Riego apagado
+[2025-06-25 09:52:37] Riego encendido
+[2025-06-25 09:52:42] Riego apagado
+[2025-06-25 09:53:11] Ciclo riego cada 1.0min por 0.5min
+[2025-06-25 09:53:11] Riego encendido
+[2025-06-25 09:53:11] Riego encendido (ciclo)
+[2025-06-25 09:53:41] Riego apagado
+[2025-06-25 09:53:41] Riego apagado (ciclo)
+[2025-06-25 09:54:11] Riego encendido
+[2025-06-25 09:54:11] Riego encendido (ciclo)
+[2025-06-25 09:54:41] Riego apagado
+[2025-06-25 09:54:41] Riego apagado (ciclo)
+[2025-06-25 09:55:11] Riego encendido
+[2025-06-25 09:55:11] Riego encendido (ciclo)
+[2025-06-25 09:55:41] Riego apagado
+[2025-06-25 09:55:41] Riego apagado (ciclo)
+[2025-06-25 09:55:51] Todos los ciclos y horarios de riego detenidos
+[2025-06-25 09:57:26] Riego encendido
+[2025-06-25 09:57:29] Riego apagado
+[2025-06-25 10:00:17] Riego programado a las 10:01 por 1.0 minutos
+[2025-06-25 10:01:17] Riego encendido
+[2025-06-25 10:01:17] Riego encendido automáticamente (hora fija)
+[2025-06-25 10:02:17] Riego apagado
+[2025-06-25 10:02:17] Riego apagado automáticamente (hora fija)
+[2025-06-25 10:02:41] Riego encendido
+[2025-06-25 10:02:41] Riego apagado
+[2025-06-25 10:02:48] Riego encendido
+[2025-06-25 10:02:49] Riego apagado
+[2025-06-25 10:04:00] Riego encendido
+[2025-06-25 10:04:02] Riego apagado
+[2025-06-25 10:04:31] Riego programado a las 10:05 por 1.0 minutos
+[2025-06-25 10:05:31] Riego encendido
+[2025-06-25 10:05:31] Riego encendido automáticamente (hora fija)
+[2025-06-25 10:06:31] Riego apagado
+[2025-06-25 10:06:31] Riego apagado automáticamente (hora fija)
+[2025-06-25 10:06:40] Todos los ciclos y horarios de riego detenidos
+[2025-06-25 10:06:46] Riego encendido
+[2025-06-25 10:06:47] Riego apagado
+[2025-06-25 10:09:50] Riego encendido
+[2025-06-25 10:09:58] Riego apagado
+[2025-06-25 10:39:58] Riego encendido
+[2025-06-25 10:39:59] Riego apagado
+[2025-06-25 10:57:24] Riego encendido
+[2025-06-25 10:57:27] Riego apagado
+[2025-06-25 11:18:34] Riego encendido
+[2025-06-25 11:18:59] Riego apagado
+[2025-06-25 11:20:19] Riego encendido
+[2025-06-25 11:20:21] Riego apagado
+[2025-06-25 11:21:32] Riego encendido
+[2025-06-25 11:21:38] Riego apagado
+[2025-06-25 11:25:01] Riego encendido
+[2025-06-25 11:25:03] Riego apagado
+[2025-06-25 11:26:15] Riego encendido
+[2025-06-25 11:26:16] Riego apagado
+[2025-06-25 12:45:29] Riego encendido
+[2025-06-25 12:45:33] Riego apagado
+[2025-06-25 12:45:43] Ciclo riego cada 1.0min por 0.5min
+[2025-06-25 12:45:43] Riego encendido
+[2025-06-25 12:45:43] Riego encendido (ciclo)
+[2025-06-25 12:46:13] Riego apagado
+[2025-06-25 12:46:13] Riego apagado (ciclo)
+[2025-06-25 12:46:30] Todos los ciclos y horarios de riego detenidos
+[2025-06-25 14:16:41] Riego encendido
+[2025-06-25 14:16:42] Riego apagado
